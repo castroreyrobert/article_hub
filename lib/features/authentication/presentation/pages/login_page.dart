@@ -61,7 +61,6 @@ class LoginPage extends StatelessWidget {
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black, width: 1.0),
                     borderRadius: BorderRadius.all(Radius.circular(6.0))
-
                 ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(6.0)),
