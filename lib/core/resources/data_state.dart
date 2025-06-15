@@ -1,8 +1,9 @@
+import 'package:article_hub/features/authentication/data/models/error_response.dart';
 import 'package:dio/dio.dart';
 
 abstract class DataState<T> {
   final T? data;
-  final DioException? error;
+  final ErrorResponse? error;
 
   const DataState({this.data, this.error});
 
@@ -13,5 +14,5 @@ class Success<T> extends DataState<T> {
 }
 
 class Failure<T> extends DataState<T> {
-  const Failure(DioException error) : super(error: error);
+  const Failure(ErrorResponse error) : super(error: error);
 }

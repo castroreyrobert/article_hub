@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'authentication_api_services.dart';
+part of 'article_api_services.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,13 +8,13 @@ part of 'authentication_api_services.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations
 
-class _AuthenticationApiServices implements AuthenticationApiServices {
-  _AuthenticationApiServices(
+class _ArticleApiServices implements ArticleApiServices {
+  _ArticleApiServices(
     this._dio, {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://dummyjson.com/';
+    baseUrl ??= 'https://jsonplaceholder.typicode.com/';
   }
 
   final Dio _dio;
@@ -24,20 +24,19 @@ class _AuthenticationApiServices implements AuthenticationApiServices {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<LoginUserModel>> login(LoginRequest loginRequest) async {
+  Future<HttpResponse<List<ArticleModel>>> getArticles() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(loginRequest.toJson());
-    final _options = _setStreamType<HttpResponse<LoginUserModel>>(Options(
-      method: 'POST',
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<List<ArticleModel>>>(Options(
+      method: 'GET',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          'auth/login',
+          'albums/1/photos',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -46,10 +45,12 @@ class _AuthenticationApiServices implements AuthenticationApiServices {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late LoginUserModel _value;
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<ArticleModel> _value;
     try {
-      _value = LoginUserModel.fromJson(_result.data!);
+      _value = _result.data!
+          .map((dynamic i) => ArticleModel.fromJson(i as Map<String, dynamic>))
+          .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
