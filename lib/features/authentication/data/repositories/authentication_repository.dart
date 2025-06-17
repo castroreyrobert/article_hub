@@ -19,7 +19,7 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
   Future<DataState<LoginUserModel>> login(String email, String password) async {
     try {
       final HttpResponse<LoginUserModel> httpResponse = await apiServices.login(
-          LoginRequest(email: email, password: password));
+          LoginRequest(username: email, password: password));
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return Success(
             data: LoginUserModel.fromJson(httpResponse.response.data));
@@ -29,6 +29,7 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
         );
       }
     } catch (e) {
+      print(e);
       return Failure(
           ErrorResponse(message: 'Something went wrong')
       );

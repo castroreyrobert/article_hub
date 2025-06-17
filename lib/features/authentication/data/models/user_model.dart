@@ -4,20 +4,32 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class LoginUserModel extends LoginUserEntity {
-  const LoginUserModel ({
-    String ? accessToken,
-    String ? refreshToken,
-    int ? id,
-    String ? username,
-    String ? email,
-    String ? firstName,
-    String ? lastName,
-    String ? gender,
-    String ? image
+    String  accessToken;
+    String  refreshToken;
+    int  id;
+    String  username;
+    String  email;
+    String firstName;
+    String lastName;
+    String gender;
+    String image;
+
+  LoginUserModel({
+    required this.accessToken,
+    required this.refreshToken,
+    required this.id ,
+    required this.username,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.image
   });
 
   factory LoginUserModel.fromJson(Map<String, dynamic> json) => _$LoginUserModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$LoginUserModelToJson(this);
+
+
 
 }

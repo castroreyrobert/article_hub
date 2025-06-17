@@ -4,8 +4,8 @@ abstract class RemoteAuthenticationEvent {
 }
 
 class LoginEvent extends RemoteAuthenticationEvent {
-  String email;
+  String username;
   String password;
 
-  LoginEvent({required this.email, required this.password});
+  LoginEvent({required this.username, required this.password});
 }

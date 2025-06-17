@@ -36,15 +36,15 @@ class LoginPage extends StatelessWidget {
           )
         ],
       ),
-      body: BlocProvider<RemoteArticleBloc>(
-        create: (context) => dependencyInjector<RemoteArticleBloc>(),
+      body: BlocProvider<RemoteAuthenticationBloc>(
+        create: (context) => dependencyInjector<RemoteAuthenticationBloc>(),
         child: _buildBody()
       ),
     );
   }
 
   Widget _buildBody() {
-    return BlocBuilder<RemoteArticleBloc, RemoteArticleState>(
+    return BlocBuilder<RemoteAuthenticationBloc, RemoteAuthenticationState>(
         builder: (ctx, state) {
           return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -113,9 +113,9 @@ class LoginPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(6.0))
                         ),
                         onPressed: () {
-                          dependencyInjector<RemoteArticleBloc>().add(GetArticlesEvent());
+                          dependencyInjector<RemoteAuthenticationBloc>().add(LoginEvent(username: "emilys", password: "emilyspass"));
                         },
-                        child: state is RemoteArticleLoading ? CircularProgressIndicator() : Text("Log in")
+                        child: state is RemoteAuthLoading ? CircularProgressIndicator() : Text("Log in")
                     )
                 )
               ],

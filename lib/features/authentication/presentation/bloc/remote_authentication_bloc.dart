@@ -14,8 +14,11 @@ class RemoteAuthenticationBloc extends Bloc<RemoteAuthenticationEvent, RemoteAut
   }
 
   void onLogin(LoginEvent event, Emitter<RemoteAuthenticationState> emitter) async {
-    final request = LoginRequest(email: event.email, password: event.password);
+    emitter(RemoteAuthLoading());
+    final request = LoginRequest(username: event.username, password: event.password);
     final dataState = await loginUseCase.invoke(params: request);
+
+    await Future.delayed(const Duration(seconds: 4));
 
     if (dataState is Success) {
       final user = dataState.data;
