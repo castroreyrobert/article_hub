@@ -7,12 +7,11 @@ import 'package:article_hub/features/article/domain/usecases/get_articles_usecas
 import 'package:article_hub/features/article/presentation/bloc/remote/remote_article_bloc.dart';
 import 'package:article_hub/features/authentication/data/data_sources/remote/authentication_api_services.dart';
 import 'package:article_hub/features/authentication/data/repositories/authentication_repository.dart';
+import 'package:article_hub/features/authentication/domain/repositories/authentication_repository.dart';
+import 'package:article_hub/features/authentication/domain/usecases/login_usecase.dart';
 import 'package:article_hub/features/authentication/presentation/bloc/remote_authentication_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-
-import '../../features/authentication/domain/repositories/authentication_repository.dart';
-import '../../features/authentication/domain/usecases/login_usecase.dart';
 
 final dependencyInjector = GetIt.instance;
 
@@ -29,9 +28,9 @@ Future<void> setUpDependencyInjector() async {
 
   dependencyInjector.registerSingleton<AuthenticationRepository>(AuthenticationRepositoryImp(dependencyInjector()));
 
-  dependencyInjector.registerSingleton<LoginUseCase>(LoginUseCase(dependencyInjector()));
+  dependencyInjector.registerSingleton<LoginUseCase>(LoginUseCase(dependencyInjector<AuthenticationRepository>()));
 
-  dependencyInjector.registerFactory<RemoteAuthenticationBloc>(() => RemoteAuthenticationBloc(dependencyInjector<LoginUseCase>()));
+  dependencyInjector.registerFactory<RemoteAuthenticationBloc>(() => RemoteAuthenticationBloc(loginUseCase: dependencyInjector<LoginUseCase>()));
 
   dependencyInjector.registerFactory<RemoteArticleBloc>(() => RemoteArticleBloc(dependencyInjector<GetArticlesUseCase>()));
 

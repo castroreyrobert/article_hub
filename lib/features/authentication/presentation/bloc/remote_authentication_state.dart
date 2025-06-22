@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/user_entity.dart';
 
-abstract class RemoteAuthenticationState extends Equatable {
+sealed class RemoteAuthenticationState extends Equatable {
   final LoginUserEntity ? user;
   final ErrorResponse ? errorMessage;
 

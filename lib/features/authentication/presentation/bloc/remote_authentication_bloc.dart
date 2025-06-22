@@ -1,15 +1,14 @@
+import 'package:article_hub/core/resources/data_state.dart';
+import 'package:article_hub/features/authentication/data/models/login_request.dart';
+import 'package:article_hub/features/authentication/domain/usecases/login_usecase.dart';
 import 'package:article_hub/features/authentication/presentation/bloc/remote_authentication_event.dart';
 import 'package:article_hub/features/authentication/presentation/bloc/remote_authentication_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/resources/data_state.dart';
-import '../../data/models/login_request.dart';
-import '../../data/models/user_model.dart';
-import '../../domain/usecases/login_usecase.dart';
 
 class RemoteAuthenticationBloc extends Bloc<RemoteAuthenticationEvent, RemoteAuthenticationState> {
   final LoginUseCase loginUseCase;
 
-  RemoteAuthenticationBloc(this.loginUseCase) : super(RemoteAuthIdle()){
+  RemoteAuthenticationBloc({required this.loginUseCase}) : super(RemoteAuthIdle()){
     on<LoginEvent>(onLogin);
   }
 
@@ -17,9 +16,6 @@ class RemoteAuthenticationBloc extends Bloc<RemoteAuthenticationEvent, RemoteAut
     emitter(RemoteAuthLoading());
     final request = LoginRequest(username: event.username, password: event.password);
     final dataState = await loginUseCase.invoke(params: request);
-
-    await Future.delayed(const Duration(seconds: 4));
-
     if (dataState is Success) {
       final user = dataState.data;
       print(user);

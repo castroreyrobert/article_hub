@@ -2,14 +2,13 @@
 import 'dart:io';
 
 import 'package:article_hub/features/authentication/data/models/error_response.dart';
+import 'package:article_hub/features/authentication/data/models/login_request.dart' show LoginRequest;
 import 'package:retrofit/retrofit.dart';
 import 'package:article_hub/core/resources/data_state.dart';
 import 'package:article_hub/features/authentication/data/data_sources/remote/authentication_api_services.dart';
 import 'package:article_hub/features/authentication/data/models/user_model.dart';
 import 'package:article_hub/features/authentication/domain/repositories/authentication_repository.dart';
-import 'package:dio/dio.dart';
 
-import '../models/login_request.dart';
 
 class AuthenticationRepositoryImp implements AuthenticationRepository {
 
@@ -29,7 +28,6 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
         );
       }
     } catch (e) {
-      print(e);
       return Failure(
           ErrorResponse(message: 'Something went wrong')
       );
