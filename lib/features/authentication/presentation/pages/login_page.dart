@@ -87,6 +87,7 @@ class LoginPage extends StatelessWidget {
                       ?.copyWith(color: Colors.black45)),
                   SizedBox(height: 8.0),
                   TextField(
+                    controller: usernameController,
                     decoration: InputDecoration(
                       hintText: "Your username",
                       focusedBorder: OutlineInputBorder(
@@ -107,6 +108,7 @@ class LoginPage extends StatelessWidget {
                       ?.copyWith(color: Colors.black45)),
                   SizedBox(height: 8.0),
                   TextField(
+                    controller: passwordController,
                     decoration: InputDecoration(
                       hintText: "Your password",
                       focusedBorder: OutlineInputBorder(
