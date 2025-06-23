@@ -1,7 +1,7 @@
 
 
 import 'package:article_hub/core/utils/dependency_injector.dart';
-import 'package:article_hub/features/authentication/domain/usecases/login_usecase.dart';
+import 'package:article_hub/features/article/presentation/pages/home_page.dart';
 import 'package:article_hub/features/authentication/presentation/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
           listener: (context, state) {
             if (state is RemoteAuthSuccess) {
               Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => SignupPage()),
+                MaterialPageRoute(builder: (context) => HomePage()),
                     (Route<dynamic> route) => false,
               );
               ScaffoldMessenger.of(context).showSnackBar(
