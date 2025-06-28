@@ -15,20 +15,30 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
         title: Text("Home Page", style: TextStyle(fontWeight: FontWeight.bold)),
       ),
-      body: BlocProvider<RemoteArticleBloc>(
-        create: (context) => dependencyInjector<RemoteArticleBloc>()..add(GetArticlesEvent()),
-        child: BlocListener<RemoteArticleBloc, RemoteArticleState>(
-          listener: (context, state) {
-            if (state is RemoteArticleFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Failed Getting Articles'), backgroundColor: Colors.red),
-              );
-            }
-          },
-          child: _buildContent()
-        )
+      body: Column(
+        children: [
+          SizedBox(height: 8.0),
+          Divider(height: 1.0, color: Colors.grey[400]),
+          Expanded(
+            child: BlocProvider<RemoteArticleBloc>(
+              create: (context) => dependencyInjector<RemoteArticleBloc>()..add(GetArticlesEvent()),
+              child: BlocListener<RemoteArticleBloc, RemoteArticleState>(
+                listener: (context, state) {
+                  if (state is RemoteArticleFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Failed Getting Articles'), backgroundColor: Colors.red),
+                    );
+                  }
+                },
+                child: _buildContent()
+              )
+            ),
+          ),
+        ],
       )
 
     );
