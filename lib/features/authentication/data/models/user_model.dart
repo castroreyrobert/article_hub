@@ -4,11 +4,11 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class LoginUserModel extends LoginUserEntity {
-    final String  accessToken;
-    final String  refreshToken;
-    final int  id;
-    final String  username;
-    final String  email;
+    final String accessToken;
+    final String refreshToken;
+    final int id;
+    final String username;
+    final String email;
     final String firstName;
     final String lastName;
     final String gender;

@@ -1,30 +1,30 @@
-import 'package:article_hub/features/article/domain/entities/article_entity.dart';
 import 'package:article_hub/features/authentication/data/models/error_response.dart';
+import 'package:article_hub/features/products/domain/entities/product_entity.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class RemoteArticleState extends Equatable {
-  final List<ArticleEntity> ? articles;
+abstract class RemoteProductsState extends Equatable {
+  final List<ProductEntity> ? products;
   final ErrorResponse ? errorMessage;
 
-  const RemoteArticleState({this.articles, this.errorMessage});
+  const RemoteProductsState({this.products, this.errorMessage});
 
   @override
-  List<Object?> get props => [articles!, errorMessage!];
+  List<Object?> get props => [products!, errorMessage!];
 }
 
-class RemoteArticleIdle extends RemoteArticleState {
-  const RemoteArticleIdle();
+class RemoteProductsIdle extends RemoteProductsState {
+  const RemoteProductsIdle();
 }
 
-class RemoteArticleSuccess extends RemoteArticleState {
-  const RemoteArticleSuccess({super.articles});
+class RemoteProductsSuccess extends RemoteProductsState {
+  const RemoteProductsSuccess({super.products});
 }
 
-class RemoteArticleFailure extends RemoteArticleState {
-  const RemoteArticleFailure({super.errorMessage});
+class RemoteProductsFailure extends RemoteProductsState {
+  const RemoteProductsFailure({super.errorMessage});
 
 }
 
-class RemoteArticleLoading extends RemoteArticleState {
-  const RemoteArticleLoading();
+class RemoteProductsLoading extends RemoteProductsState {
+  const RemoteProductsLoading();
 }

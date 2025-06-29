@@ -1,11 +1,11 @@
 
 
 import 'package:article_hub/core/utils/dependency_injector.dart';
-import 'package:article_hub/features/article/presentation/pages/home_page.dart';
 import 'package:article_hub/features/authentication/presentation/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../products/presentation/pages/home_page.dart';
 import '../bloc/remote_authentication_bloc.dart';
 import '../bloc/remote_authentication_event.dart';
 import '../bloc/remote_authentication_state.dart';

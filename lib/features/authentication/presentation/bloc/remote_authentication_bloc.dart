@@ -18,11 +18,9 @@ class RemoteAuthenticationBloc extends Bloc<RemoteAuthenticationEvent, RemoteAut
     final dataState = await loginUseCase.invoke(params: request);
     if (dataState is Success) {
       final user = dataState.data;
-      print(user);
       emitter(RemoteAuthSuccess(user: user));
     } else if (dataState is Failure) {
       final errorMessage = dataState.error;
-      print(errorMessage);
       emitter(RemoteAuthFailure(errorMessage: errorMessage));
     }
   }

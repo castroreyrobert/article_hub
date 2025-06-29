@@ -1,24 +1,26 @@
 import 'package:article_hub/core/resources/data_state.dart';
-import 'package:article_hub/features/article/domain/usecases/get_articles_usecase.dart';
-import 'package:article_hub/features/article/presentation/bloc/remote/remote_articles_event.dart';
-import 'package:article_hub/features/article/presentation/bloc/remote/remote_articles_state.dart';
+import 'package:article_hub/features/products/domain/usecases/get_products_usecase.dart';
+import 'package:article_hub/features/products/presentation/bloc/remote/remote_products_event.dart';
+import 'package:article_hub/features/products/presentation/bloc/remote/remote_products_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RemoteArticleBloc extends Bloc<RemoteArticlesEvent, RemoteArticleState> {
-  final GetArticlesUseCase getArticlesUseCase;
+class RemoteProductsBloc extends Bloc<RemoteProductsEvent, RemoteProductsState> {
+  final GetProductsUseCase getProductsUseCase;
 
-  RemoteArticleBloc(this.getArticlesUseCase) : super(RemoteArticleIdle()){
-    on<GetArticlesEvent>(onGetArticles);
+  RemoteProductsBloc({required this.getProductsUseCase}): super(RemoteProductsIdle()) {
+    on<GetProductsEvent>(onGetProducts);
   }
 
-  void onGetArticles(GetArticlesEvent event, Emitter<RemoteArticleState> emitter) async {
-    emitter(RemoteArticleLoading());
-    final dataState = await getArticlesUseCase.invoke();
+
+  void onGetProducts(GetProductsEvent event, Emitter<RemoteProductsState> emit) async {
+    emit(RemoteProductsLoading());
+    final dataState = await getProductsUseCase.invoke();
     if (dataState is Success) {
-      final articles = dataState.data;
-      emitter(RemoteArticleSuccess(articles: articles));
+      final products = dataState.data;
+      emit(RemoteProductsSuccess(products: products));
     } else if (dataState is Failure) {
-      emitter(RemoteArticleFailure(errorMessage: dataState.error));
-    }
+      emit(RemoteProductsFailure(errorMessage: dataState.error));
   }
+    }
+
 }

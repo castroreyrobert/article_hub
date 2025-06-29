@@ -1,6 +1,6 @@
 
-import 'package:article_hub/features/article/presentation/pages/home_page.dart';
 import 'package:article_hub/features/authentication/presentation/pages/login_page.dart';
+import 'package:article_hub/features/products/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/authentication/presentation/pages/signup_page.dart';
