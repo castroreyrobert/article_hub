@@ -14,6 +14,7 @@ import 'package:article_hub/features/products/data/data_sources/product_api_serv
 import 'package:article_hub/features/products/data/repositories/product_repository_imp.dart';
 import 'package:article_hub/features/products/domain/repositories/product_repository.dart';
 import 'package:article_hub/features/products/domain/usecases/get_products_usecase.dart';
+import 'package:article_hub/features/products/presentation/bloc/remote/remote_products_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -32,7 +33,7 @@ Future<void> setUpDependencyInjector() async {
 
   dependencyInjector.registerSingleton(GetProductsUseCase(dependencyInjector()));
 
-  dependencyInjector.registerFactory<RemoteArticleBloc>(() => RemoteArticleBloc(dependencyInjector<GetArticlesUseCase>()));
+  dependencyInjector.registerFactory<RemoteProductsBloc>(() => RemoteProductsBloc(dependencyInjector<GetProductsUseCase>()));
 
   dependencyInjector.registerSingleton(GetArticlesUseCase(dependencyInjector()));
 

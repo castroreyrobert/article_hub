@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class RemoteProductsBloc extends Bloc<RemoteProductsEvent, RemoteProductsState> {
   final GetProductsUseCase getProductsUseCase;
 
-  RemoteProductsBloc({required this.getProductsUseCase}): super(RemoteProductsIdle()) {
+  RemoteProductsBloc(this.getProductsUseCase): super(RemoteProductsIdle()) {
     on<GetProductsEvent>(onGetProducts);
   }
 
