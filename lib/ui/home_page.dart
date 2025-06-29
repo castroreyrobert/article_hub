@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
       _title = BottomNavMenu.values[index].getTitle();
+      _pageController.jumpToPage(index);
     });
   }
 
