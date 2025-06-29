@@ -1,20 +1,19 @@
 
 import 'package:article_hub/core/utils/dio_builder.dart';
-import 'package:article_hub/features/article/data/data_sources/remote/article_api_services.dart';
-import 'package:article_hub/features/article/data/repositories/article_repository_imp.dart';
-import 'package:article_hub/features/article/domain/repository/article_repository.dart';
-import 'package:article_hub/features/article/domain/usecases/get_articles_usecase.dart';
-import 'package:article_hub/features/article/presentation/bloc/remote/remote_article_bloc.dart';
-import 'package:article_hub/features/authentication/data/data_sources/remote/authentication_api_services.dart';
-import 'package:article_hub/features/authentication/data/repositories/authentication_repository.dart';
-import 'package:article_hub/features/authentication/domain/repositories/authentication_repository.dart';
-import 'package:article_hub/features/authentication/domain/usecases/login_usecase.dart';
-import 'package:article_hub/features/authentication/presentation/bloc/remote_authentication_bloc.dart';
-import 'package:article_hub/features/products/data/data_sources/product_api_services.dart';
-import 'package:article_hub/features/products/data/repositories/product_repository_imp.dart';
-import 'package:article_hub/features/products/domain/repositories/product_repository.dart';
-import 'package:article_hub/features/products/domain/usecases/get_products_usecase.dart';
-import 'package:article_hub/features/products/presentation/bloc/remote/remote_products_bloc.dart';
+import 'package:article_hub/data/data_sources/remote/articles/article_api_services.dart';
+import 'package:article_hub/data/data_sources/remote/authentication/authentication_api_services.dart';
+import 'package:article_hub/data/data_sources/remote/products/product_api_services.dart';
+import 'package:article_hub/data/repositories/articles/article_repository_imp.dart';
+import 'package:article_hub/data/repositories/authentication/authentication_repository.dart';
+import 'package:article_hub/data/repositories/products/product_repository_imp.dart';
+import 'package:article_hub/domain/repositories/articles/article_repository.dart';
+import 'package:article_hub/domain/repositories/authentication/authentication_repository.dart';
+import 'package:article_hub/domain/repositories/products/product_repository.dart';
+import 'package:article_hub/domain/usecases/articles/get_articles_usecase.dart';
+import 'package:article_hub/domain/usecases/authentication/login_usecase.dart';
+import 'package:article_hub/domain/usecases/products/get_products_usecase.dart';
+import 'package:article_hub/ui/authentication/bloc/remote_authentication_bloc.dart';
+import 'package:article_hub/ui/products/bloc/remote/remote_products_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -44,7 +43,5 @@ Future<void> setUpDependencyInjector() async {
   dependencyInjector.registerSingleton<LoginUseCase>(LoginUseCase(dependencyInjector<AuthenticationRepository>()));
 
   dependencyInjector.registerFactory<RemoteAuthenticationBloc>(() => RemoteAuthenticationBloc(loginUseCase: dependencyInjector<LoginUseCase>()));
-
-  dependencyInjector.registerFactory<RemoteArticleBloc>(() => RemoteArticleBloc(dependencyInjector<GetArticlesUseCase>()));
 
 }

@@ -1,4 +1,4 @@
-import 'package:article_hub/features/authentication/data/models/error_response.dart';
+import 'package:article_hub/data/models/error_response.dart';
 import 'package:dio/dio.dart';
 
 abstract class DataState<T> {

@@ -1,0 +1,27 @@
+import 'package:article_hub/core/resources/data_state.dart';
+import 'package:article_hub/data/models/authentication/login_request.dart';
+import 'package:article_hub/domain/usecases/authentication/login_usecase.dart';
+import 'package:article_hub/ui/authentication/bloc/remote_authentication_event.dart';
+import 'package:article_hub/ui/authentication/bloc/remote_authentication_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class RemoteAuthenticationBloc extends Bloc<RemoteAuthenticationEvent, RemoteAuthenticationState> {
+  final LoginUseCase loginUseCase;
+
+  RemoteAuthenticationBloc({required this.loginUseCase}) : super(RemoteAuthIdle()){
+    on<LoginEvent>(onLogin);
+  }
+
+  void onLogin(LoginEvent event, Emitter<RemoteAuthenticationState> emitter) async {
+    emitter(RemoteAuthLoading());
+    final request = LoginRequest(username: event.username, password: event.password);
+    final dataState = await loginUseCase.invoke(params: request);
+    if (dataState is Success) {
+      final user = dataState.data;
+      emitter(RemoteAuthSuccess(user: user));
+    } else if (dataState is Failure) {
+      final errorMessage = dataState.error;
+      emitter(RemoteAuthFailure(errorMessage: errorMessage));
+    }
+  }
+}
