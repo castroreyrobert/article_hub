@@ -74,7 +74,10 @@ class ProductDetailsPage extends StatelessWidget {
                   ),
                   Text(state.productDetails?.title ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
                   SizedBox(height: 4.0),
-                  Text('₱ ${state.productDetails?.price}' ?? ""),
+                  Text('₱ ${state.productDetails?.price}'),
+                  SizedBox(height: 4.0),
+                  Text(state.productDetails?.description ?? ""),
+                  SizedBox(height: 4.0),
               ]
             )
         );
