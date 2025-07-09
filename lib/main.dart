@@ -8,7 +8,13 @@ Future<void> main() async {
   runApp(
       MaterialApp(
         theme: ThemeData(
-          fontFamily: 'PlusJakartaSans'
+          fontFamily: 'PlusJakartaSans',
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          chipTheme: ChipThemeData(
+            selectedColor: Colors.black,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+
+          )
         ),
        onGenerateRoute: AppRoutes.onGenerateRoute,
       )

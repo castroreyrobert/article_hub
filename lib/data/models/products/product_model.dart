@@ -17,12 +17,12 @@ class ProductListResponse {
 @JsonSerializable()
 class ProductModel extends ProductEntity {
    final List<String> ? images;
-   final String ? thumbnail;
+   final String thumbnail;
    final double ? rating;
    final String ? returnPolicy;
    final String ? description;
    final int ? weight;
-   final String ? title;
+   final String title;
    final List<String> ? tags;
    final double ? discountPercentage;
    final double ? price;
@@ -33,14 +33,14 @@ class ProductModel extends ProductEntity {
    final String ? sku;
    final String ? brand;
 
-  ProductModel({
+  const ProductModel({
     this.images,
-    this.thumbnail,
+    required this.thumbnail,
     this.rating,
     this.returnPolicy,
     this.description,
     this.weight,
-    this.title,
+    required this.title,
     this.tags,
     this.discountPercentage,
     this.price,
