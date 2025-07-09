@@ -12,4 +12,6 @@ abstract class ProductRepository {
 
   Future<DataState<List<ProductEntity>>> getProductsByQuery(String ? query);
 
+  Future<DataState<ProductEntity>> getProductDetails(int id);
+
 }

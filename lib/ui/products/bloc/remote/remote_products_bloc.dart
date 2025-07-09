@@ -1,5 +1,6 @@
 import 'package:article_hub/core/resources/data_state.dart';
 import 'package:article_hub/domain/usecases/products/get_product_category_usecase.dart';
+import 'package:article_hub/domain/usecases/products/get_product_details_usecase.dart';
 import 'package:article_hub/domain/usecases/products/get_products_usecase.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_event.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_state.dart';
@@ -8,10 +9,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class RemoteProductsBloc extends Bloc<RemoteProductsEvent, RemoteProductsState> {
   final GetProductsUseCase getProductsUseCase;
   final GetProductCategoryUseCase getProductCategoryUseCase;
+  final GetProductDetailsUseCase getProductDetailsUseCase;
 
-  RemoteProductsBloc(this.getProductsUseCase, this.getProductCategoryUseCase): super(RemoteProductsIdle()) {
+  RemoteProductsBloc(this.getProductsUseCase, this.getProductCategoryUseCase, this.getProductDetailsUseCase): super(RemoteProductsIdle()) {
     on<GetProductsCategoriesEvent>(onGetProductCategories);
     on<GetProductsEvent>(onGetProducts);
+    on<GetProductDetailsEvent>(onGetProductDetails);
   }
 
 
@@ -32,6 +35,17 @@ class RemoteProductsBloc extends Bloc<RemoteProductsEvent, RemoteProductsState> 
     if (dataState is Success) {
       final products = dataState.data;
       emit(RemoteProductsSuccess(products: products));
+    } else {
+      emit(RemoteProductsFailure(errorMessage: (dataState as Failure).error));
+    }
+  }
+
+  void onGetProductDetails(GetProductDetailsEvent event, Emitter<RemoteProductsState> emit) async {
+    emit(RemoteProductsLoading());
+    final dataState = await getProductDetailsUseCase.invoke(params: event.id);
+    if (dataState is Success) {
+      final details = dataState.data;
+      emit(GetProductDetailsSuccess(productDetails: details));
     } else {
       emit(RemoteProductsFailure(errorMessage: (dataState as Failure).error));
     }

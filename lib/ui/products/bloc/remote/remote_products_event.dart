@@ -10,5 +10,9 @@ class GetProductsEvent extends RemoteProductsEvent {
 
 class GetProductsCategoriesEvent extends RemoteProductsEvent {
   const GetProductsCategoriesEvent();
+}
 
+class GetProductDetailsEvent extends RemoteProductsEvent {
+  final int id;
+  const GetProductDetailsEvent({required this.id});
 }

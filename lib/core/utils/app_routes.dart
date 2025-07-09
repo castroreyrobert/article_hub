@@ -1,9 +1,12 @@
 
+import 'dart:ffi';
+
 import 'package:article_hub/ui/account_page.dart';
 import 'package:article_hub/ui/authentication/pages/login_page.dart';
 import 'package:article_hub/ui/authentication/pages/signup_page.dart';
 import 'package:article_hub/ui/cart_page.dart';
 import 'package:article_hub/ui/products/pages/discover_page.dart';
+import 'package:article_hub/ui/products/pages/product_details_page.dart';
 import 'package:article_hub/ui/products/pages/search_page.dart';
 import 'package:article_hub/ui/saved_page.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +23,7 @@ class AppRoutes {
   static const String saved = '/saved';
   static const String search = '/search';
   static const String account = '/account';
+  static const String productDetails = '/product-details';
 
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -38,6 +42,9 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => SearchPage());
       case AppRoutes.account:
         return MaterialPageRoute(builder: (_) => AccountPage());
+      case AppRoutes.productDetails:
+        var userId = settings.arguments as int;
+        return MaterialPageRoute(builder: (_) => ProductDetailsPage(id: userId));
       /*case AppRoutes.signup:
       // Example of passing arguments
         final arguments = settings.arguments as Map<String, dynamic>?;

@@ -144,24 +144,29 @@ class _DiscoverPageState extends State<DiscoverPage> {
           final product = productList[index];
           return Card(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Image.network(product.thumbnail ?? "", fit: BoxFit.cover),
-                ),
-                SizedBox(height: 8.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(product.title ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
-                SizedBox(height: 4.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text('₱${product.price}' ?? ""),
-                ),
-                SizedBox(height: 4.0),
-              ]
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/product-details', arguments: product.id);
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Image.network(product.thumbnail ?? "", fit: BoxFit.cover),
+                  ),
+                  SizedBox(height: 8.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(product.title ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                  SizedBox(height: 4.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text('₱${product.price}' ?? ""),
+                  ),
+                  SizedBox(height: 4.0),
+                ]
+              ),
             )
           );
         }

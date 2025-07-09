@@ -8,7 +8,7 @@ Future<void> main() async {
   runApp(
       MaterialApp(
         theme: ThemeData(
-          fontFamily: 'PlusJakartaSans',
+          fontFamily: 'GeneralSans',
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           chipTheme: ChipThemeData(
             selectedColor: Colors.black,

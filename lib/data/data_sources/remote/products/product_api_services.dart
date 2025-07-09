@@ -24,4 +24,7 @@ abstract class ProductApiServices {
   @GET('products')
   Future<HttpResponse<ProductListResponse>> getProductsByQuery();
 
+  @GET('products/{id}')
+  Future<HttpResponse<ProductModel>> getProductDetails(@Path('id') int id);
+
 }

@@ -72,4 +72,18 @@ class ProductRepositoryImp extends ProductRepository {
       return Failure(ErrorResponse(message: "Something went wrong!"));
     }
   }
+
+  @override
+  Future<DataState<ProductModel>> getProductDetails(int id) async {
+    final response = await apiServices.getProductDetails(id);
+    try {
+      if (response.response.statusCode == 200) {
+        return Success(data: response.data);
+      } else {
+        return Failure(ErrorResponse.fromJson(response.response.data));
+      }
+    } catch(e) {
+      return Failure(ErrorResponse(message: "Something went wrong!"));
+    }
+  }
 }

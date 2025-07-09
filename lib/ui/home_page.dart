@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   final PageController _pageController = PageController(initialPage: 0);
 
 
-
   static const List<Widget> _bottomNavigationScreens = <Widget>[
     DiscoverPage(),
     SearchPage(),
@@ -79,13 +78,14 @@ class _HomePageState extends State<HomePage> {
         scrollDirection: Axis.horizontal,
         children: _bottomNavigationScreens,
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Discover" ),
-        BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search" ),
-        BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Saved" ),
-        BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart" ),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account" )
-      ],
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Discover" ),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search" ),
+          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Saved" ),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart" ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account" )
+        ],
         currentIndex: _selectedIndex,
         onTap: _onBottomNavItemSelected,
         selectedItemColor: Colors.black,

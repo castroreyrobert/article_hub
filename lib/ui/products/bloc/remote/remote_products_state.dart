@@ -7,8 +7,9 @@ abstract class RemoteProductsState extends Equatable {
   final List<ProductEntity> ? products;
   final List<ProductCategoryEntity> ? categories;
   final ErrorResponse ? errorMessage;
+  final ProductEntity ? productDetails;
 
-  const RemoteProductsState({this.products, this.categories, this.errorMessage});
+  const RemoteProductsState({this.products, this.categories, this.errorMessage, this.productDetails});
 
   @override
   List<Object?> get props => [products, categories, errorMessage!];
@@ -24,6 +25,10 @@ class RemoteProductsSuccess extends RemoteProductsState {
 
 class RemoteProductCategorySuccess extends RemoteProductsState {
   const RemoteProductCategorySuccess({super.categories});
+}
+
+class GetProductDetailsSuccess extends RemoteProductsState {
+  const GetProductDetailsSuccess({super.productDetails});
 }
 
 class RemoteProductsFailure extends RemoteProductsState {
