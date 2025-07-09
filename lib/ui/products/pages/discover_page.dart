@@ -51,7 +51,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
               listener: (context, state) {
 
                 if (state is RemoteProductCategorySuccess) {
-                  context.read<RemoteProductsBloc>().add(GetProductsEvent(null));
+                  context.read<RemoteProductsBloc>().add(GetProductsEvent());
                 }
                 if (state is RemoteProductsFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -121,7 +121,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     setState(() {
                       selectedCategory = value ? category : ProductCategoryEntity.all;
                     });
-                    context.read<RemoteProductsBloc>().add(GetProductsEvent(category.slug != ProductCategoryEntity.all.slug ? category.slug : null));
+                    context.read<RemoteProductsBloc>().add(GetProductsEvent(category: category.slug != ProductCategoryEntity.all.slug ? category.slug : null));
                 },
               )
           );
