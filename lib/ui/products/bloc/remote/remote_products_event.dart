@@ -5,7 +5,8 @@ abstract class RemoteProductsEvent {
 
 class GetProductsEvent extends RemoteProductsEvent {
   final String ? category;
-  const GetProductsEvent({this.category});
+  final String ? query;
+  const GetProductsEvent({this.category, this.query});
 }
 
 class GetProductsCategoriesEvent extends RemoteProductsEvent {

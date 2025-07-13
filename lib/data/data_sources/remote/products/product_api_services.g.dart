@@ -132,9 +132,10 @@ class _ProductApiServices implements ProductApiServices {
   }
 
   @override
-  Future<HttpResponse<ProductListResponse>> getProductsByQuery() async {
+  Future<HttpResponse<ProductListResponse>> getProductsByQuery(
+      String query) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'q': query};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ProductListResponse>>(Options(
@@ -144,7 +145,7 @@ class _ProductApiServices implements ProductApiServices {
     )
         .compose(
           _dio.options,
-          'products',
+          'products/search',
           queryParameters: queryParameters,
           data: _data,
         )

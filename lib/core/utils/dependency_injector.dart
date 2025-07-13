@@ -15,6 +15,7 @@ import 'package:article_hub/domain/usecases/articles/get_articles_usecase.dart';
 import 'package:article_hub/domain/usecases/authentication/login_usecase.dart';
 import 'package:article_hub/domain/usecases/products/get_product_category_usecase.dart';
 import 'package:article_hub/domain/usecases/products/get_product_details_usecase.dart';
+import 'package:article_hub/domain/usecases/products/get_products_by_category.dart';
 import 'package:article_hub/domain/usecases/products/get_products_usecase.dart';
 import 'package:article_hub/ui/authentication/bloc/remote_authentication_bloc.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_bloc.dart';
@@ -63,6 +64,10 @@ Future<void> setUpDependencyInjector() async {
     dependsOn: [ProductRepository],
   );
 
+  dependencyInjector.registerSingletonWithDependencies<GetProductsByCategoryUseCase>(
+        () => GetProductsByCategoryUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository],
+  );
 
   dependencyInjector.registerSingletonWithDependencies<GetProductDetailsUseCase>(
         () => GetProductDetailsUseCase(dependencyInjector()),
@@ -72,7 +77,8 @@ Future<void> setUpDependencyInjector() async {
   dependencyInjector.registerFactory<RemoteProductsBloc>(() => RemoteProductsBloc(
       dependencyInjector<GetProductsUseCase>(),
       dependencyInjector<GetProductCategoryUseCase>(),
-      dependencyInjector<GetProductDetailsUseCase>())
+      dependencyInjector<GetProductDetailsUseCase>(),
+      dependencyInjector<GetProductsByCategoryUseCase>())
   );
 
   dependencyInjector.registerSingleton(GetArticlesUseCase(dependencyInjector()));

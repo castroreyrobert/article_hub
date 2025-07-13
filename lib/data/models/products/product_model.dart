@@ -18,8 +18,8 @@ class ProductListResponse {
 }
 
 @JsonSerializable()
-@Entity(tableName: "products", primaryKeys: ["id"])
-class ProductModel extends ProductEntity {
+@Entity(tableName: "products", primaryKeys: ["mId"])
+class ProductModel {
 
    @JsonKey(name: "thumbnail")
    final String? mThumbnail;
@@ -86,24 +86,7 @@ class ProductModel extends ProductEntity {
     this.mStock,
     this.mSku,
     this.mBrand
-  }): super(
-      images: mImages,
-      tags: mTags,
-      thumbnail: mThumbnail,
-      rating: mRating,
-      returnPolicy: mReturnPolicy,
-      description: mDescription,
-      weight: mWeight,
-      title: mTitle,
-      discountPercentage: mDiscountPercentage,
-      price: mPrice,
-      id: mId,
-      availabilityStatus: mAvailabilityStatus,
-      category: mCategory,
-      stock: mStock,
-      sku: mSku,
-      brand: mBrand
-  );
+  });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
 
@@ -129,5 +112,26 @@ class ProductModel extends ProductEntity {
         mBrand: entity.brand
     );
   }
+
+   ProductEntity toEntityInstanceMethod() { // Or just toEntity()
+     return ProductEntity(
+         images: this.mImages, // 'this' refers to the current ProductModel instance
+         tags: this.mTags,
+         thumbnail: this.mThumbnail,
+         rating: this.mRating,
+         returnPolicy: this.mReturnPolicy,
+         description: this.mDescription,
+         weight: this.mWeight,
+         title: this.mTitle,
+         discountPercentage: this.mDiscountPercentage,
+         price: this.mPrice,
+         id: this.mId,
+         availabilityStatus: this.mAvailabilityStatus,
+         category: this.mCategory,
+         stock: this.mStock,
+         sku: this.mSku,
+         brand: this.mBrand
+     );
+   }
 
 }

@@ -15,17 +15,17 @@ class ProductRepositoryImp extends ProductRepository {
   final AppDatabase database;
   ProductRepositoryImp(this.apiServices, this.database);
   @override
-  Future<DataState<List<ProductModel>>> getProducts(String ? query) async {
+  Future<DataState<List<ProductEntity>>> getProducts(String ? query) async {
     
     HttpResponse<ProductListResponse> response;
     if(query != null) {
-      response = await apiServices.getProductsByCategory(query);
+      response = await apiServices.getProductsByQuery(query);
     } else {
       response = await apiServices.getProducts();
     }
     try {
       if (response.response.statusCode == 200) {
-        return Success(data: response.data.products);
+        return Success(data: response.data.products?.map((e) => e.toEntityInstanceMethod()).toList());
       } else {
         return Failure(ErrorResponse.fromJson(response.response.data));
       }
@@ -50,11 +50,11 @@ class ProductRepositoryImp extends ProductRepository {
   }
 
   @override
-  Future<DataState<List<ProductModel>>> getProductsByCategory(String category) async {
+  Future<DataState<List<ProductEntity>>> getProductsByCategory(String category) async {
     final response = await apiServices.getProductsByCategory(category);
     try {
       if (response.response.statusCode == 200) {
-        return Success(data: response.data.products);
+        return Success(data: response.data.products?.map((e) => e.toEntityInstanceMethod()).toList());
       } else {
         return Failure(ErrorResponse.fromJson(response.response.data));
       }
@@ -64,25 +64,11 @@ class ProductRepositoryImp extends ProductRepository {
   }
 
   @override
-  Future<DataState<List<ProductModel>>> getProductsByQuery(String? query) async {
-    final response = await apiServices.getProductsByQuery();
-    try {
-      if (response.response.statusCode == 200) {
-        return Success(data: response.data.products);
-      } else {
-        return Failure(ErrorResponse.fromJson(response.response.data));
-      }
-    } catch(e) {
-      return Failure(ErrorResponse(message: "Something went wrong!"));
-    }
-  }
-
-  @override
-  Future<DataState<ProductModel>> getProductDetails(int id) async {
+  Future<DataState<ProductEntity>> getProductDetails(int id) async {
     final response = await apiServices.getProductDetails(id);
     try {
       if (response.response.statusCode == 200) {
-        return Success(data: response.data);
+        return Success(data: response.data.toEntityInstanceMethod());
       } else {
         return Failure(ErrorResponse.fromJson(response.response.data));
       }

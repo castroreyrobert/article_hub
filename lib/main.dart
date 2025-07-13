@@ -7,18 +7,7 @@ import 'core/utils/dependency_injector.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setUpDependencyInjector();
-
-  try {
-    await dependencyInjector.allReady(); // WAITS FOR ASYNC SINGLETONS
-    print("main: dependencyInjector.allReady() COMPLETED SUCCESSFULLY.");
-  } catch (e, s) {
-    print("main: dependencyInjector.allReady() FAILED: $e");
-    print(s);
-    // Handle critical failure
-    return;
-  }
-
-  print("main: Running app...");
+  await dependencyInjector.allReady();
   runApp(
       MaterialApp(
         theme: ThemeData(

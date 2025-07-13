@@ -96,7 +96,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `products` (`mThumbnail` TEXT, `mRating` REAL, `mReturnPolicy` TEXT, `mDescription` TEXT, `mWeight` INTEGER, `mImages` TEXT, `mTitle` TEXT, `mDiscountPercentage` REAL, `mPrice` REAL, `mId` INTEGER, `mAvailabilityStatus` TEXT, `mCategory` TEXT, `mStock` INTEGER, `mSku` TEXT, `mBrand` TEXT, `mTags` TEXT, `images` TEXT, `thumbnail` TEXT, `rating` REAL, `returnPolicy` TEXT, `description` TEXT, `weight` INTEGER, `title` TEXT, `tags` TEXT, `discountPercentage` REAL, `price` REAL, `id` INTEGER, `availabilityStatus` TEXT, `category` TEXT, `stock` INTEGER, `sku` TEXT, `brand` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `products` (`mThumbnail` TEXT, `mRating` REAL, `mReturnPolicy` TEXT, `mDescription` TEXT, `mWeight` INTEGER, `mImages` TEXT, `mTitle` TEXT, `mDiscountPercentage` REAL, `mPrice` REAL, `mId` INTEGER, `mAvailabilityStatus` TEXT, `mCategory` TEXT, `mStock` INTEGER, `mSku` TEXT, `mBrand` TEXT, `mTags` TEXT, PRIMARY KEY (`mId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -134,28 +134,12 @@ class _$ProductDao extends ProductDao {
                   'mStock': item.mStock,
                   'mSku': item.mSku,
                   'mBrand': item.mBrand,
-                  'mTags': _stringListConverter.encode(item.mTags),
-                  'images': _stringListConverter.encode(item.images),
-                  'thumbnail': item.thumbnail,
-                  'rating': item.rating,
-                  'returnPolicy': item.returnPolicy,
-                  'description': item.description,
-                  'weight': item.weight,
-                  'title': item.title,
-                  'tags': _stringListConverter.encode(item.tags),
-                  'discountPercentage': item.discountPercentage,
-                  'price': item.price,
-                  'id': item.id,
-                  'availabilityStatus': item.availabilityStatus,
-                  'category': item.category,
-                  'stock': item.stock,
-                  'sku': item.sku,
-                  'brand': item.brand
+                  'mTags': _stringListConverter.encode(item.mTags)
                 }),
         _productModelDeletionAdapter = DeletionAdapter(
             database,
             'products',
-            ['id'],
+            ['mId'],
             (ProductModel item) => <String, Object?>{
                   'mThumbnail': item.mThumbnail,
                   'mRating': item.mRating,
@@ -172,23 +156,7 @@ class _$ProductDao extends ProductDao {
                   'mStock': item.mStock,
                   'mSku': item.mSku,
                   'mBrand': item.mBrand,
-                  'mTags': _stringListConverter.encode(item.mTags),
-                  'images': _stringListConverter.encode(item.images),
-                  'thumbnail': item.thumbnail,
-                  'rating': item.rating,
-                  'returnPolicy': item.returnPolicy,
-                  'description': item.description,
-                  'weight': item.weight,
-                  'title': item.title,
-                  'tags': _stringListConverter.encode(item.tags),
-                  'discountPercentage': item.discountPercentage,
-                  'price': item.price,
-                  'id': item.id,
-                  'availabilityStatus': item.availabilityStatus,
-                  'category': item.category,
-                  'stock': item.stock,
-                  'sku': item.sku,
-                  'brand': item.brand
+                  'mTags': _stringListConverter.encode(item.mTags)
                 });
 
   final sqflite.DatabaseExecutor database;
