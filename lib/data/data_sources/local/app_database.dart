@@ -8,7 +8,7 @@ import '../../models/products/product_model.dart';
 
 part 'app_database.g.dart';
 
-@TypeConverters([ListStringConverter])
+@TypeConverters([StringListConverter])
 @Database(version: 1, entities: [ProductModel])
 abstract class AppDatabase extends FloorDatabase {
   ProductDao get productDao;

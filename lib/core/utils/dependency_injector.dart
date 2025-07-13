@@ -28,37 +28,46 @@ final dependencyInjector = GetIt.instance;
 
 Future<void> setUpDependencyInjector() async {
 
-  // Define your callback
-  final AppDatabaseCallback = Callback(
-      onCreate: (database, version) {
-
-      }
-  );
-
-  dependencyInjector.registerSingletonAsync<AppDatabase>(() async => $FloorAppDatabase
-      .databaseBuilder('app_database.db')
-      .addCallback(AppDatabaseCallback)
-      .build());
-
-  dependencyInjector.registerSingletonWithDependencies<ProductDao>(
-          () => dependencyInjector<AppDatabase>().productDao,
-      dependsOn: [AppDatabase]);
+  dependencyInjector.registerSingletonAsync<AppDatabase>(() async {
+    // ... your Floor database builder ...
+    final database = await $FloorAppDatabase
+        .databaseBuilder('app_database.db')
+    // .addCallback(AppDatabaseCallback) // If you still have this
+        .build();
+    return database;
+  });
 
   dependencyInjector.registerSingleton(getDio());
 
   dependencyInjector.registerSingleton(ProductApiServices(dependencyInjector()));
 
-  dependencyInjector.registerSingleton<ProductRepository>(ProductRepositoryImp(dependencyInjector()));
+  dependencyInjector.registerSingletonWithDependencies<ProductRepository>(
+        () => ProductRepositoryImp(
+        dependencyInjector<ProductApiServices>(), // Injected dependency
+        dependencyInjector<AppDatabase>()         // Injected dependency
+    ),
+    dependsOn: [AppDatabase], // Explicitly state that AppDatabase must be ready
+  );
 
   dependencyInjector.registerSingleton(ArticleApiServices(dependencyInjector()));
 
   dependencyInjector.registerSingleton<ArticleRepository>(ArticleRepositoryImp(dependencyInjector()));
 
-  dependencyInjector.registerSingleton(GetProductsUseCase(dependencyInjector()));
+  dependencyInjector.registerSingletonWithDependencies<GetProductsUseCase>(
+        () => GetProductsUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository]
+  );
 
-  dependencyInjector.registerSingleton<GetProductCategoryUseCase>(GetProductCategoryUseCase(dependencyInjector()));
+  dependencyInjector.registerSingletonWithDependencies<GetProductCategoryUseCase>(
+        () => GetProductCategoryUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository],
+  );
 
-  dependencyInjector.registerSingleton<GetProductDetailsUseCase>(GetProductDetailsUseCase(dependencyInjector()));
+
+  dependencyInjector.registerSingletonWithDependencies<GetProductDetailsUseCase>(
+        () => GetProductDetailsUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository]
+  );
 
   dependencyInjector.registerFactory<RemoteProductsBloc>(() => RemoteProductsBloc(
       dependencyInjector<GetProductsUseCase>(),

@@ -12,8 +12,8 @@ import '../../data_sources/local/app_database.dart';
 
 class ProductRepositoryImp extends ProductRepository {
   final ProductApiServices apiServices;
-  //final AppDatabase database;
-  ProductRepositoryImp(this.apiServices);
+  final AppDatabase database;
+  ProductRepositoryImp(this.apiServices, this.database);
   @override
   Future<DataState<List<ProductModel>>> getProducts(String ? query) async {
     

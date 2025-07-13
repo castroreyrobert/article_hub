@@ -20,41 +20,90 @@ class ProductListResponse {
 @JsonSerializable()
 @Entity(tableName: "products", primaryKeys: ["id"])
 class ProductModel extends ProductEntity {
-   final List<String> ? images;
-   final String thumbnail;
-   final double ? rating;
-   final String ? returnPolicy;
-   final String ? description;
-   final int ? weight;
-   final String title;
-   final List<String> ? tags;
-   final double ? discountPercentage;
-   final double ? price;
-   final int ? id;
-   final String ? availabilityStatus;
-   final String ? category;
-   final int ? stock;
-   final String ? sku;
-   final String ? brand;
+
+   @JsonKey(name: "thumbnail")
+   final String? mThumbnail;
+
+   @JsonKey(name: "rating")
+   final double? mRating;
+
+   @JsonKey(name: "returnPolicy")
+   final String? mReturnPolicy;
+   @JsonKey(name: "description")
+
+   final String? mDescription;
+   @JsonKey(name: "weight")
+   final int? mWeight;
+
+   @JsonKey(name: "images")
+   final List<String>? mImages;
+
+   @JsonKey(name: "title")
+   final String? mTitle;
+
+   @JsonKey(name: "discountPercentage")
+   final double? mDiscountPercentage;
+
+   @JsonKey(name: "price")
+   final double? mPrice;
+
+   @PrimaryKey(autoGenerate: false)
+   @JsonKey(name: "id")
+   final int? mId;
+
+   @JsonKey(name: "availabilityStatus")
+   final String? mAvailabilityStatus;
+
+   @JsonKey(name: "category")
+   final String? mCategory;
+
+   @JsonKey(name: "stock")
+   final int? mStock;
+
+   @JsonKey(name: "sku")
+   final String? mSku;
+
+   @JsonKey(name: "brand")
+   final String? mBrand;
+
+   @JsonKey(name: "tags")
+   final List<String>? mTags;
 
   const ProductModel({
-    this.images,
-    required this.thumbnail,
-    this.rating,
-    this.returnPolicy,
-    this.description,
-    this.weight,
-    required this.title,
-    this.tags,
-    this.discountPercentage,
-    this.price,
-    this.id,
-    this.availabilityStatus,
-    this.category,
-    this.stock,
-    this.sku,
-    this.brand
-  });
+    this.mImages,
+    this.mTags,
+    this.mThumbnail,
+    this.mRating,
+    this.mReturnPolicy,
+    this.mDescription,
+    this.mWeight,
+    this.mTitle,
+    this.mDiscountPercentage,
+    this.mPrice,
+    this.mId,
+    this.mAvailabilityStatus,
+    this.mCategory,
+    this.mStock,
+    this.mSku,
+    this.mBrand
+  }): super(
+      images: mImages,
+      tags: mTags,
+      thumbnail: mThumbnail,
+      rating: mRating,
+      returnPolicy: mReturnPolicy,
+      description: mDescription,
+      weight: mWeight,
+      title: mTitle,
+      discountPercentage: mDiscountPercentage,
+      price: mPrice,
+      id: mId,
+      availabilityStatus: mAvailabilityStatus,
+      category: mCategory,
+      stock: mStock,
+      sku: mSku,
+      brand: mBrand
+  );
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
 
@@ -62,40 +111,23 @@ class ProductModel extends ProductEntity {
 
   factory ProductModel.fromEntity(ProductEntity entity) {
     return ProductModel(
-        images: entity.images,
-        thumbnail: entity.thumbnail ?? "",
-        rating: entity.rating,
-        returnPolicy: entity.returnPolicy,
-        description: entity.description,
-        weight: entity.weight,
-        title: entity.title ?? "",
-        discountPercentage: entity.discountPercentage,
-        price: entity.price,
-        id: entity.id,
-        availabilityStatus: entity.availabilityStatus,
-        category: entity.category,
-        stock: entity.stock,
-        sku: entity.sku,
-        brand: entity.brand
+        mImages: entity.images,
+        mTags: entity.tags,
+        mThumbnail: entity.thumbnail ?? "",
+        mRating: entity.rating,
+        mReturnPolicy: entity.returnPolicy,
+        mDescription: entity.description,
+        mWeight: entity.weight,
+        mTitle: entity.title ?? "",
+        mDiscountPercentage: entity.discountPercentage,
+        mPrice: entity.price,
+        mId: entity.id,
+        mAvailabilityStatus: entity.availabilityStatus,
+        mCategory: entity.category,
+        mStock: entity.stock,
+        mSku: entity.sku,
+        mBrand: entity.brand
     );
   }
-
-   @override
-   List<Object?> get props => [
-     thumbnail,
-     rating,
-     returnPolicy,
-     description,
-     weight,
-     title,
-     discountPercentage,
-     price,
-     id,
-     availabilityStatus,
-     category,
-     stock,
-     sku,
-     brand
-   ];
 
 }
