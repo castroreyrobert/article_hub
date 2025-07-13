@@ -1,14 +1,18 @@
 
 import 'package:article_hub/core/resources/data_state.dart';
-import 'package:article_hub/data/models/error_response.dart';
 import 'package:article_hub/data/data_sources/remote/products/product_api_services.dart';
+import 'package:article_hub/data/models/error_response.dart';
 import 'package:article_hub/data/models/products/product_category_model.dart';
 import 'package:article_hub/data/models/products/product_model.dart';
 import 'package:article_hub/domain/repositories/products/product_repository.dart';
 import 'package:retrofit/dio.dart';
 
+import '../../../domain/entities/products/product_entity.dart';
+import '../../data_sources/local/app_database.dart';
+
 class ProductRepositoryImp extends ProductRepository {
   final ProductApiServices apiServices;
+  //final AppDatabase database;
   ProductRepositoryImp(this.apiServices);
   @override
   Future<DataState<List<ProductModel>>> getProducts(String ? query) async {

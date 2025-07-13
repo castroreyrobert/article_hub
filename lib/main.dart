@@ -1,9 +1,12 @@
 import 'package:article_hub/core/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+
 import 'core/utils/dependency_injector.dart';
 
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await setUpDependencyInjector();
   runApp(
       MaterialApp(

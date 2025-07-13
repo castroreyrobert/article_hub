@@ -1,5 +1,7 @@
 
+import 'package:article_hub/core/utils/app_database_builder.dart';
 import 'package:article_hub/core/utils/dio_builder.dart';
+import 'package:article_hub/data/data_sources/local/products/product_dao.dart';
 import 'package:article_hub/data/data_sources/remote/articles/article_api_services.dart';
 import 'package:article_hub/data/data_sources/remote/authentication/authentication_api_services.dart';
 import 'package:article_hub/data/data_sources/remote/products/product_api_services.dart';
@@ -17,11 +19,31 @@ import 'package:article_hub/domain/usecases/products/get_products_usecase.dart';
 import 'package:article_hub/ui/authentication/bloc/remote_authentication_bloc.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:floor/floor.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../data/data_sources/local/app_database.dart';
 
 final dependencyInjector = GetIt.instance;
 
 Future<void> setUpDependencyInjector() async {
+
+  // Define your callback
+  final AppDatabaseCallback = Callback(
+      onCreate: (database, version) {
+
+      }
+  );
+
+  dependencyInjector.registerSingletonAsync<AppDatabase>(() async => $FloorAppDatabase
+      .databaseBuilder('app_database.db')
+      .addCallback(AppDatabaseCallback)
+      .build());
+
+  dependencyInjector.registerSingletonWithDependencies<ProductDao>(
+          () => dependencyInjector<AppDatabase>().productDao,
+      dependsOn: [AppDatabase]);
+
   dependencyInjector.registerSingleton(getDio());
 
   dependencyInjector.registerSingleton(ProductApiServices(dependencyInjector()));

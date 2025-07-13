@@ -67,7 +67,7 @@ class ProductDetailsPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.0)
                         ),
                         child: Image.network(
-                            state.productDetails?.images?.firstOrNull ?? "", fit: BoxFit.fitWidth,
+                            state.productDetails?.thumbnail ?? "", fit: BoxFit.fitWidth,
                         ),
                       ),
                     ),

@@ -1,5 +1,8 @@
 import 'package:article_hub/domain/entities/products/product_entity.dart';
+import 'package:floor/floor.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../../core/utils/list_string_type_converter.dart';
 
 part 'product_model.g.dart';
 
@@ -15,6 +18,7 @@ class ProductListResponse {
 }
 
 @JsonSerializable()
+@Entity(tableName: "products", primaryKeys: ["id"])
 class ProductModel extends ProductEntity {
    final List<String> ? images;
    final String thumbnail;
@@ -56,16 +60,34 @@ class ProductModel extends ProductEntity {
 
   Map<String, dynamic> toJson() => _$ProductModelToJson(this);
 
+  factory ProductModel.fromEntity(ProductEntity entity) {
+    return ProductModel(
+        images: entity.images,
+        thumbnail: entity.thumbnail ?? "",
+        rating: entity.rating,
+        returnPolicy: entity.returnPolicy,
+        description: entity.description,
+        weight: entity.weight,
+        title: entity.title ?? "",
+        discountPercentage: entity.discountPercentage,
+        price: entity.price,
+        id: entity.id,
+        availabilityStatus: entity.availabilityStatus,
+        category: entity.category,
+        stock: entity.stock,
+        sku: entity.sku,
+        brand: entity.brand
+    );
+  }
+
    @override
    List<Object?> get props => [
-     images,
      thumbnail,
      rating,
      returnPolicy,
      description,
      weight,
      title,
-     tags,
      discountPercentage,
      price,
      id,
