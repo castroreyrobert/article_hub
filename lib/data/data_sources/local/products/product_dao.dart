@@ -15,4 +15,16 @@ abstract class ProductDao {
   @delete
   Future<void> removeFromFavorites(ProductModel product);
 
+  @Query('SELECT * FROM recent_products')
+  Future<List<RecentProductModel>> getRecentProducts();
+
+  @insert
+  Future<void> addToRecent(RecentProductModel product);
+
+  @delete
+  Future<void> removeFromRecent(RecentProductModel product);
+
+  @Query('DELETE FROM recent_products')
+  Future<void> clearRecentProducts();
+
 }

@@ -1,7 +1,5 @@
 
-import 'package:article_hub/core/utils/app_database_builder.dart';
 import 'package:article_hub/core/utils/dio_builder.dart';
-import 'package:article_hub/data/data_sources/local/products/product_dao.dart';
 import 'package:article_hub/data/data_sources/remote/articles/article_api_services.dart';
 import 'package:article_hub/data/data_sources/remote/authentication/authentication_api_services.dart';
 import 'package:article_hub/data/data_sources/remote/products/product_api_services.dart';
@@ -13,6 +11,8 @@ import 'package:article_hub/domain/repositories/authentication/authentication_re
 import 'package:article_hub/domain/repositories/products/product_repository.dart';
 import 'package:article_hub/domain/usecases/articles/get_articles_usecase.dart';
 import 'package:article_hub/domain/usecases/authentication/login_usecase.dart';
+import 'package:article_hub/domain/usecases/products/add_to_favorites_usecase.dart';
+import 'package:article_hub/domain/usecases/products/add_to_recent_usecase.dart';
 import 'package:article_hub/domain/usecases/products/get_product_category_usecase.dart';
 import 'package:article_hub/domain/usecases/products/get_product_details_usecase.dart';
 import 'package:article_hub/domain/usecases/products/get_products_by_category.dart';
@@ -20,10 +20,15 @@ import 'package:article_hub/domain/usecases/products/get_products_usecase.dart';
 import 'package:article_hub/ui/authentication/bloc/remote_authentication_bloc.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:floor/floor.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../data/data_sources/local/app_database.dart';
+import '../../domain/usecases/products/delete_all_recent_usecase.dart';
+import '../../domain/usecases/products/get_favorite_products_usecase.dart';
+import '../../domain/usecases/products/get_recent_products_usecase.dart';
+import '../../domain/usecases/products/remove_from_favorites_usecase.dart';
+import '../../domain/usecases/products/remove_from_recent_usecase.dart';
+import '../../ui/products/bloc/local/local_products_bloc.dart';
 
 final dependencyInjector = GetIt.instance;
 
@@ -74,12 +79,60 @@ Future<void> setUpDependencyInjector() async {
     dependsOn: [ProductRepository]
   );
 
+  dependencyInjector.registerSingletonWithDependencies<AddToFavoritesUseCase>(
+      () => AddToFavoritesUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository]
+  );
+
+  dependencyInjector.registerSingletonWithDependencies<RemoveFromFavoriteUseCase>(
+      () => RemoveFromFavoriteUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository]
+  );
+
+  dependencyInjector.registerSingletonWithDependencies<GetFavoriteProductsUseCase>(
+      () => GetFavoriteProductsUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository]
+  );
+
+  dependencyInjector.registerSingletonWithDependencies<GetRecentProductsUseCase>(
+          () => GetRecentProductsUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository]
+  );
+
+  dependencyInjector.registerSingletonWithDependencies<AddToRecentUseCase>(()
+      => AddToRecentUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository]
+  );
+
+  dependencyInjector.registerSingletonWithDependencies<RemoveFromRecentUseCase>(
+          () => RemoveFromRecentUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository]
+  );
+
+  dependencyInjector.registerSingletonWithDependencies<DeleteAllRecentUseCase>(
+          () => DeleteAllRecentUseCase(dependencyInjector()),
+    dependsOn: [ProductRepository]
+  );
+
+
+  dependencyInjector.registerFactory<LocalProductsBloc>(() => LocalProductsBloc(
+    dependencyInjector<GetFavoriteProductsUseCase>(),
+    dependencyInjector<GetRecentProductsUseCase>(),
+    dependencyInjector<AddToFavoritesUseCase>(),
+    dependencyInjector<RemoveFromFavoriteUseCase>(),
+    dependencyInjector<RemoveFromRecentUseCase>(),
+    dependencyInjector<AddToRecentUseCase>(),
+    dependencyInjector<DeleteAllRecentUseCase>())
+  );
+
+
   dependencyInjector.registerFactory<RemoteProductsBloc>(() => RemoteProductsBloc(
       dependencyInjector<GetProductsUseCase>(),
       dependencyInjector<GetProductCategoryUseCase>(),
       dependencyInjector<GetProductDetailsUseCase>(),
       dependencyInjector<GetProductsByCategoryUseCase>())
   );
+
 
   dependencyInjector.registerSingleton(GetArticlesUseCase(dependencyInjector()));
 

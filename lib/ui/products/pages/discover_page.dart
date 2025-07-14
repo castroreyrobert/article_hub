@@ -1,14 +1,12 @@
 
 
+import 'package:article_hub/core/utils/app_routes.dart';
 import 'package:article_hub/core/utils/dependency_injector.dart';
-import 'package:article_hub/data/models/products/product_category_model.dart';
 import 'package:article_hub/domain/entities/products/product_category_entity.dart';
 import 'package:article_hub/domain/entities/products/product_entity.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_bloc.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_event.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_state.dart';
-import 'package:floor/floor.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -146,7 +144,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/product-details', arguments: product.id);
+                Navigator.pushNamed(context, AppRoutes.productDetails, arguments: product.id);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -44,6 +44,7 @@ class AppRoutes {
       case AppRoutes.productDetails:
         var userId = settings.arguments as int;
         return MaterialPageRoute(builder: (_) => ProductDetailsPage(id: userId));
+
       /*case AppRoutes.signup:
       // Example of passing arguments
         final arguments = settings.arguments as Map<String, dynamic>?;

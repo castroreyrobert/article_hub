@@ -96,7 +96,9 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `products` (`mThumbnail` TEXT, `mRating` REAL, `mReturnPolicy` TEXT, `mDescription` TEXT, `mWeight` INTEGER, `mImages` TEXT, `mTitle` TEXT, `mDiscountPercentage` REAL, `mPrice` REAL, `mId` INTEGER, `mAvailabilityStatus` TEXT, `mCategory` TEXT, `mStock` INTEGER, `mSku` TEXT, `mBrand` TEXT, `mTags` TEXT, PRIMARY KEY (`mId`))');
+            'CREATE TABLE IF NOT EXISTS `products` (`images` TEXT, `thumbnail` TEXT, `rating` REAL, `returnPolicy` TEXT, `description` TEXT, `weight` INTEGER, `title` TEXT, `tags` TEXT, `discountPercentage` REAL, `price` REAL, `id` INTEGER, `availabilityStatus` TEXT, `category` TEXT, `stock` INTEGER, `sku` TEXT, `brand` TEXT, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `recent_products` (`images` TEXT, `thumbnail` TEXT, `rating` REAL, `returnPolicy` TEXT, `description` TEXT, `weight` INTEGER, `title` TEXT, `tags` TEXT, `discountPercentage` REAL, `price` REAL, `id` INTEGER, `availabilityStatus` TEXT, `category` TEXT, `stock` INTEGER, `sku` TEXT, `brand` TEXT, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -119,44 +121,87 @@ class _$ProductDao extends ProductDao {
             database,
             'products',
             (ProductModel item) => <String, Object?>{
-                  'mThumbnail': item.mThumbnail,
-                  'mRating': item.mRating,
-                  'mReturnPolicy': item.mReturnPolicy,
-                  'mDescription': item.mDescription,
-                  'mWeight': item.mWeight,
-                  'mImages': _stringListConverter.encode(item.mImages),
-                  'mTitle': item.mTitle,
-                  'mDiscountPercentage': item.mDiscountPercentage,
-                  'mPrice': item.mPrice,
-                  'mId': item.mId,
-                  'mAvailabilityStatus': item.mAvailabilityStatus,
-                  'mCategory': item.mCategory,
-                  'mStock': item.mStock,
-                  'mSku': item.mSku,
-                  'mBrand': item.mBrand,
-                  'mTags': _stringListConverter.encode(item.mTags)
+                  'images': _stringListConverter.encode(item.images),
+                  'thumbnail': item.thumbnail,
+                  'rating': item.rating,
+                  'returnPolicy': item.returnPolicy,
+                  'description': item.description,
+                  'weight': item.weight,
+                  'title': item.title,
+                  'tags': _stringListConverter.encode(item.tags),
+                  'discountPercentage': item.discountPercentage,
+                  'price': item.price,
+                  'id': item.id,
+                  'availabilityStatus': item.availabilityStatus,
+                  'category': item.category,
+                  'stock': item.stock,
+                  'sku': item.sku,
+                  'brand': item.brand
+                }),
+        _recentProductModelInsertionAdapter = InsertionAdapter(
+            database,
+            'recent_products',
+            (RecentProductModel item) => <String, Object?>{
+                  'images': _stringListConverter.encode(item.images),
+                  'thumbnail': item.thumbnail,
+                  'rating': item.rating,
+                  'returnPolicy': item.returnPolicy,
+                  'description': item.description,
+                  'weight': item.weight,
+                  'title': item.title,
+                  'tags': _stringListConverter.encode(item.tags),
+                  'discountPercentage': item.discountPercentage,
+                  'price': item.price,
+                  'id': item.id,
+                  'availabilityStatus': item.availabilityStatus,
+                  'category': item.category,
+                  'stock': item.stock,
+                  'sku': item.sku,
+                  'brand': item.brand
                 }),
         _productModelDeletionAdapter = DeletionAdapter(
             database,
             'products',
-            ['mId'],
+            ['id'],
             (ProductModel item) => <String, Object?>{
-                  'mThumbnail': item.mThumbnail,
-                  'mRating': item.mRating,
-                  'mReturnPolicy': item.mReturnPolicy,
-                  'mDescription': item.mDescription,
-                  'mWeight': item.mWeight,
-                  'mImages': _stringListConverter.encode(item.mImages),
-                  'mTitle': item.mTitle,
-                  'mDiscountPercentage': item.mDiscountPercentage,
-                  'mPrice': item.mPrice,
-                  'mId': item.mId,
-                  'mAvailabilityStatus': item.mAvailabilityStatus,
-                  'mCategory': item.mCategory,
-                  'mStock': item.mStock,
-                  'mSku': item.mSku,
-                  'mBrand': item.mBrand,
-                  'mTags': _stringListConverter.encode(item.mTags)
+                  'images': _stringListConverter.encode(item.images),
+                  'thumbnail': item.thumbnail,
+                  'rating': item.rating,
+                  'returnPolicy': item.returnPolicy,
+                  'description': item.description,
+                  'weight': item.weight,
+                  'title': item.title,
+                  'tags': _stringListConverter.encode(item.tags),
+                  'discountPercentage': item.discountPercentage,
+                  'price': item.price,
+                  'id': item.id,
+                  'availabilityStatus': item.availabilityStatus,
+                  'category': item.category,
+                  'stock': item.stock,
+                  'sku': item.sku,
+                  'brand': item.brand
+                }),
+        _recentProductModelDeletionAdapter = DeletionAdapter(
+            database,
+            'recent_products',
+            ['id'],
+            (RecentProductModel item) => <String, Object?>{
+                  'images': _stringListConverter.encode(item.images),
+                  'thumbnail': item.thumbnail,
+                  'rating': item.rating,
+                  'returnPolicy': item.returnPolicy,
+                  'description': item.description,
+                  'weight': item.weight,
+                  'title': item.title,
+                  'tags': _stringListConverter.encode(item.tags),
+                  'discountPercentage': item.discountPercentage,
+                  'price': item.price,
+                  'id': item.id,
+                  'availabilityStatus': item.availabilityStatus,
+                  'category': item.category,
+                  'stock': item.stock,
+                  'sku': item.sku,
+                  'brand': item.brand
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -167,28 +212,60 @@ class _$ProductDao extends ProductDao {
 
   final InsertionAdapter<ProductModel> _productModelInsertionAdapter;
 
+  final InsertionAdapter<RecentProductModel>
+      _recentProductModelInsertionAdapter;
+
   final DeletionAdapter<ProductModel> _productModelDeletionAdapter;
+
+  final DeletionAdapter<RecentProductModel> _recentProductModelDeletionAdapter;
 
   @override
   Future<List<ProductModel>> getFavorites() async {
     return _queryAdapter.queryList('SELECT * FROM products',
         mapper: (Map<String, Object?> row) => ProductModel(
-            mImages: _stringListConverter.decode(row['mImages'] as String?),
-            mTags: _stringListConverter.decode(row['mTags'] as String?),
-            mThumbnail: row['mThumbnail'] as String?,
-            mRating: row['mRating'] as double?,
-            mReturnPolicy: row['mReturnPolicy'] as String?,
-            mDescription: row['mDescription'] as String?,
-            mWeight: row['mWeight'] as int?,
-            mTitle: row['mTitle'] as String?,
-            mDiscountPercentage: row['mDiscountPercentage'] as double?,
-            mPrice: row['mPrice'] as double?,
-            mId: row['mId'] as int?,
-            mAvailabilityStatus: row['mAvailabilityStatus'] as String?,
-            mCategory: row['mCategory'] as String?,
-            mStock: row['mStock'] as int?,
-            mSku: row['mSku'] as String?,
-            mBrand: row['mBrand'] as String?));
+            images: _stringListConverter.decode(row['images'] as String?),
+            thumbnail: row['thumbnail'] as String?,
+            rating: row['rating'] as double?,
+            returnPolicy: row['returnPolicy'] as String?,
+            description: row['description'] as String?,
+            weight: row['weight'] as int?,
+            title: row['title'] as String?,
+            tags: _stringListConverter.decode(row['tags'] as String?),
+            discountPercentage: row['discountPercentage'] as double?,
+            price: row['price'] as double?,
+            id: row['id'] as int?,
+            availabilityStatus: row['availabilityStatus'] as String?,
+            category: row['category'] as String?,
+            stock: row['stock'] as int?,
+            sku: row['sku'] as String?,
+            brand: row['brand'] as String?));
+  }
+
+  @override
+  Future<List<RecentProductModel>> getRecentProducts() async {
+    return _queryAdapter.queryList('SELECT * FROM recent_products',
+        mapper: (Map<String, Object?> row) => RecentProductModel(
+            images: _stringListConverter.decode(row['images'] as String?),
+            thumbnail: row['thumbnail'] as String?,
+            rating: row['rating'] as double?,
+            returnPolicy: row['returnPolicy'] as String?,
+            description: row['description'] as String?,
+            weight: row['weight'] as int?,
+            title: row['title'] as String?,
+            tags: _stringListConverter.decode(row['tags'] as String?),
+            discountPercentage: row['discountPercentage'] as double?,
+            price: row['price'] as double?,
+            id: row['id'] as int?,
+            availabilityStatus: row['availabilityStatus'] as String?,
+            category: row['category'] as String?,
+            stock: row['stock'] as int?,
+            sku: row['sku'] as String?,
+            brand: row['brand'] as String?));
+  }
+
+  @override
+  Future<void> clearRecentProducts() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM recent_products');
   }
 
   @override
@@ -198,8 +275,19 @@ class _$ProductDao extends ProductDao {
   }
 
   @override
+  Future<void> addToRecent(RecentProductModel product) async {
+    await _recentProductModelInsertionAdapter.insert(
+        product, OnConflictStrategy.abort);
+  }
+
+  @override
   Future<void> removeFromFavorites(ProductModel product) async {
     await _productModelDeletionAdapter.delete(product);
+  }
+
+  @override
+  Future<void> removeFromRecent(RecentProductModel product) async {
+    await _recentProductModelDeletionAdapter.delete(product);
   }
 }
 

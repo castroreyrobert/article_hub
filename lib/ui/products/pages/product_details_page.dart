@@ -32,11 +32,6 @@ class ProductDetailsPage extends StatelessWidget {
                 SnackBar(content: Text('Failed Getting Articles'),
                     backgroundColor: Colors.red),
               );
-            } else if (state is GetProductDetailsSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Success Getting Articles'),
-                    backgroundColor: Colors.green),
-              );
             }
           },
           child: _buildProductDetailsContent()

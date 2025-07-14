@@ -76,4 +76,39 @@ class ProductRepositoryImp extends ProductRepository {
       return Failure(ErrorResponse(message: "Something went wrong!"));
     }
   }
+
+  @override
+  Future<void> removeFromFavoriteProducts(ProductEntity product) {
+    return database.productDao.removeFromFavorites(ProductModel.fromEntity(product));
+  }
+
+  @override
+  Future<void> addFavoriteProduct(ProductEntity product) {
+    return database.productDao.addToFavorites(ProductModel.fromEntity(product));
+  }
+
+  @override
+  Future<List<ProductEntity>> getFavoriteProducts() {
+    return database.productDao.getFavorites().then((value) => value.map((e) => e.toEntityInstanceMethod()).toList());
+  }
+
+  @override
+  Future<void> addRecentProduct(ProductEntity product) {
+    return database.productDao.addToRecent(RecentProductModel.fromEntity(product));
+  }
+
+  @override
+  Future<void> removeFromRecentProducts(ProductEntity product) {
+   return database.productDao.removeFromRecent(RecentProductModel.fromEntity(product));
+  }
+
+  @override
+  Future<List<ProductEntity>> getRecentProducts() {
+   return database.productDao.getRecentProducts().then((value) => value.map((e) => e.toEntityInstanceMethod()).toList());
+  }
+
+  @override
+  Future<void> clearRecentProducts() {
+    return database.productDao.clearRecentProducts();
+  }
 }

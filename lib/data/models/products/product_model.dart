@@ -2,8 +2,6 @@ import 'package:article_hub/domain/entities/products/product_entity.dart';
 import 'package:floor/floor.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../core/utils/list_string_type_converter.dart';
-
 part 'product_model.g.dart';
 
 @JsonSerializable()
@@ -18,74 +16,43 @@ class ProductListResponse {
 }
 
 @JsonSerializable()
-@Entity(tableName: "products", primaryKeys: ["mId"])
+@Entity(tableName: "products", primaryKeys: ["id"])
 class ProductModel {
 
-   @JsonKey(name: "thumbnail")
-   final String? mThumbnail;
-
-   @JsonKey(name: "rating")
-   final double? mRating;
-
-   @JsonKey(name: "returnPolicy")
-   final String? mReturnPolicy;
-   @JsonKey(name: "description")
-
-   final String? mDescription;
-   @JsonKey(name: "weight")
-   final int? mWeight;
-
-   @JsonKey(name: "images")
-   final List<String>? mImages;
-
-   @JsonKey(name: "title")
-   final String? mTitle;
-
-   @JsonKey(name: "discountPercentage")
-   final double? mDiscountPercentage;
-
-   @JsonKey(name: "price")
-   final double? mPrice;
-
-   @PrimaryKey(autoGenerate: false)
-   @JsonKey(name: "id")
-   final int? mId;
-
-   @JsonKey(name: "availabilityStatus")
-   final String? mAvailabilityStatus;
-
-   @JsonKey(name: "category")
-   final String? mCategory;
-
-   @JsonKey(name: "stock")
-   final int? mStock;
-
-   @JsonKey(name: "sku")
-   final String? mSku;
-
-   @JsonKey(name: "brand")
-   final String? mBrand;
-
-   @JsonKey(name: "tags")
-   final List<String>? mTags;
+  final List<String> ? images;
+  final String ? thumbnail;
+  final double ? rating;
+  final String ? returnPolicy;
+  final String ? description;
+  final int ? weight;
+  final String ? title;
+  final List<String> ? tags;
+  final double ? discountPercentage;
+  final double ? price;
+  final int ? id;
+  final String ? availabilityStatus;
+  final String ? category;
+  final int ? stock;
+  final String ? sku;
+  final String ? brand;
 
   const ProductModel({
-    this.mImages,
-    this.mTags,
-    this.mThumbnail,
-    this.mRating,
-    this.mReturnPolicy,
-    this.mDescription,
-    this.mWeight,
-    this.mTitle,
-    this.mDiscountPercentage,
-    this.mPrice,
-    this.mId,
-    this.mAvailabilityStatus,
-    this.mCategory,
-    this.mStock,
-    this.mSku,
-    this.mBrand
+    this.images,
+    this.thumbnail,
+    this.rating,
+    this.returnPolicy,
+    this.description,
+    this.weight,
+    this.title,
+    this.tags,
+    this.discountPercentage,
+    this.price,
+    this.id,
+    this.availabilityStatus,
+    this.category,
+    this.stock,
+    this.sku,
+    this.brand
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
@@ -94,44 +61,128 @@ class ProductModel {
 
   factory ProductModel.fromEntity(ProductEntity entity) {
     return ProductModel(
-        mImages: entity.images,
-        mTags: entity.tags,
-        mThumbnail: entity.thumbnail ?? "",
-        mRating: entity.rating,
-        mReturnPolicy: entity.returnPolicy,
-        mDescription: entity.description,
-        mWeight: entity.weight,
-        mTitle: entity.title ?? "",
-        mDiscountPercentage: entity.discountPercentage,
-        mPrice: entity.price,
-        mId: entity.id,
-        mAvailabilityStatus: entity.availabilityStatus,
-        mCategory: entity.category,
-        mStock: entity.stock,
-        mSku: entity.sku,
-        mBrand: entity.brand
+        images: entity.images,
+        tags: entity.tags,
+        thumbnail: entity.thumbnail ?? "",
+        rating: entity.rating,
+        returnPolicy: entity.returnPolicy,
+        description: entity.description,
+        weight: entity.weight,
+        title: entity.title ?? "",
+        discountPercentage: entity.discountPercentage,
+        price: entity.price,
+        id: entity.id,
+        availabilityStatus: entity.availabilityStatus,
+        category: entity.category,
+        stock: entity.stock,
+        sku: entity.sku,
+        brand: entity.brand
     );
   }
 
    ProductEntity toEntityInstanceMethod() { // Or just toEntity()
      return ProductEntity(
-         images: this.mImages, // 'this' refers to the current ProductModel instance
-         tags: this.mTags,
-         thumbnail: this.mThumbnail,
-         rating: this.mRating,
-         returnPolicy: this.mReturnPolicy,
-         description: this.mDescription,
-         weight: this.mWeight,
-         title: this.mTitle,
-         discountPercentage: this.mDiscountPercentage,
-         price: this.mPrice,
-         id: this.mId,
-         availabilityStatus: this.mAvailabilityStatus,
-         category: this.mCategory,
-         stock: this.mStock,
-         sku: this.mSku,
-         brand: this.mBrand
+         images: images, // 'this' refers to the current ProductModel instance
+         tags: this.tags,
+         thumbnail: this.thumbnail,
+         rating: this.rating,
+         returnPolicy: this.returnPolicy,
+         description: this.description,
+         weight: this.weight,
+         title: this.title,
+         discountPercentage: this.discountPercentage,
+         price: this.price,
+         id: this.id,
+         availabilityStatus: this.availabilityStatus,
+         category: this.category,
+         stock: this.stock,
+         sku: this.sku,
+         brand: this.brand
      );
    }
 
+}
+
+@JsonSerializable()
+@Entity(tableName: "recent_products", primaryKeys: ["id"])
+class RecentProductModel {
+  const RecentProductModel({
+    this.images,
+    this.thumbnail,
+    this.rating,
+    this.returnPolicy,
+    this.description,
+    this.weight,
+    this.title,
+    this.tags,
+    this.discountPercentage,
+    this.price,
+    this.id,
+    this.availabilityStatus,
+    this.category,
+    this.stock,
+    this.sku,
+    this.brand
+  });
+
+  final List<String> ? images;
+  final String ? thumbnail;
+  final double ? rating;
+  final String ? returnPolicy;
+  final String ? description;
+  final int ? weight;
+  final String ? title;
+  final List<String> ? tags;
+  final double ? discountPercentage;
+  final double ? price;
+  final int ? id;
+  final String ? availabilityStatus;
+  final String ? category;
+  final int ? stock;
+  final String ? sku;
+  final String ? brand;
+
+  factory RecentProductModel.fromJson(Map<String, dynamic> json) => _$RecentProductModelFromJson(json);
+
+  factory RecentProductModel.fromEntity(ProductEntity entity) {
+    return RecentProductModel(
+        images: entity.images,
+        tags: entity.tags,
+        thumbnail: entity.thumbnail,
+        rating: entity.rating,
+        returnPolicy: entity.returnPolicy,
+        description: entity.description,
+        weight: entity.weight,
+        title: entity.title,
+        discountPercentage: entity.discountPercentage,
+        price: entity.price,
+        id: entity.id,
+        availabilityStatus: entity.availabilityStatus,
+        category: entity.category,
+        stock: entity.stock,
+        sku: entity.sku,
+        brand: entity.brand
+    );
+  }
+
+  ProductEntity toEntityInstanceMethod() { // Or just toEntity()
+    return ProductEntity(
+        images: this.images, // 'this' refers to the current model instance
+        tags: this.tags,
+        thumbnail: this.thumbnail,
+        rating: this.rating,
+        returnPolicy: this.returnPolicy,
+        description: this.description,
+        weight: this.weight,
+        title: this.title,
+        discountPercentage: this.discountPercentage,
+        price: this.price,
+        id: this.id,
+        availabilityStatus: this.availabilityStatus,
+        category: this.category,
+        stock: this.stock,
+        sku: this.sku,
+        brand: this.brand
+    );
+  }
 }

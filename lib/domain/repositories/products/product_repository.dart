@@ -12,4 +12,18 @@ abstract class ProductRepository {
 
   Future<DataState<ProductEntity>> getProductDetails(int id);
 
+  Future<List<ProductEntity>> getFavoriteProducts();
+
+  Future<void> addFavoriteProduct(ProductEntity product);
+
+  Future<void> removeFromFavoriteProducts(ProductEntity product);
+
+  Future<List<ProductEntity>> getRecentProducts();
+
+  Future<void> addRecentProduct(ProductEntity product);
+
+  Future<void> removeFromRecentProducts(ProductEntity product);
+
+  Future<void> clearRecentProducts();
+
 }
