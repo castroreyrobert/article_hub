@@ -10,6 +10,9 @@ import 'package:article_hub/ui/products/bloc/remote/remote_products_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/local/local_products_bloc.dart';
+import '../bloc/local/local_products_event.dart';
+
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
 
@@ -43,31 +46,37 @@ class _DiscoverPageState extends State<DiscoverPage> {
         SizedBox(height: 8.0),
         Divider(height: 1.0, color: Colors.grey[400]),
         Expanded(
-          child: BlocProvider<RemoteProductsBloc>(
-            create: (context) => dependencyInjector<RemoteProductsBloc>()..add(GetProductsCategoriesEvent()),
-            child: BlocListener<RemoteProductsBloc, RemoteProductsState>(
-              listener: (context, state) {
-
-                if (state is RemoteProductCategorySuccess) {
-                  context.read<RemoteProductsBloc>().add(GetProductsEvent());
-                }
-                if (state is RemoteProductsFailure) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Failed Getting Articles'), backgroundColor: Colors.red),
-                  );
-                }
-                else {
-                  if (state.categories != null) {
-                    final categories = state.categories!.map((e) =>
-                        ProductCategoryEntity(slug: e.slug, name: e.name, url: e.url)).toList();
-                    final productCategories = [ProductCategoryEntity.all, ...categories];
-                    onAddAllCategory(productCategories);
+          child: MultiBlocProvider(
+              providers: [
+                BlocProvider<RemoteProductsBloc>(
+                    create: (context) => dependencyInjector<RemoteProductsBloc>()..add(GetProductsCategoriesEvent()),
+                ),
+                BlocProvider<LocalProductsBloc>(
+                  create: (context) => dependencyInjector<LocalProductsBloc>(),
+                ),
+              ],
+              child: BlocListener<RemoteProductsBloc, RemoteProductsState>(
+                listener: (context, state) {
+                  if (state is RemoteProductCategorySuccess) {
+                    context.read<RemoteProductsBloc>().add(GetProductsEvent());
                   }
-                }
-              },
-              child: _buildContent()
+                  if (state is RemoteProductsFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Failed Getting Articles'), backgroundColor: Colors.red),
+                    );
+                  }
+                  else {
+                    if (state.categories != null) {
+                      final categories = state.categories!.map((e) =>
+                          ProductCategoryEntity(slug: e.slug, name: e.name, url: e.url)).toList();
+                      final productCategories = [ProductCategoryEntity.all, ...categories];
+                      onAddAllCategory(productCategories);
+                    }
+                  }
+                },
+                child: _buildContent(),
             )
-          ),
+          )
         ),
       ],
     );
@@ -89,7 +98,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 if (state is RemoteProductsLoading)
                   Expanded(child: Center(child: CircularProgressIndicator()))
                 else
-                  Expanded(child: _buildArticles(products ?? List.empty()))
+                  Expanded(child: _buildProducts(products ?? List.empty()))
               ],
             ),
           );
@@ -128,46 +137,102 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
-  Widget _buildArticles(List<ProductEntity> productList) {
+  Widget _buildProducts(List<ProductEntity> productList) {
     return GridView.builder(
-        padding: const EdgeInsets.all(8.0),
-        itemCount: productList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 8.0,
-            mainAxisSpacing: 8.0,
-            childAspectRatio: 0.8
-        ),
-        itemBuilder: (context, index) {
-          final product = productList[index];
-          return Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, AppRoutes.productDetails, arguments: product.id);
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Image.network(product.thumbnail ?? "", fit: BoxFit.cover),
+      padding: const EdgeInsets.all(8.0),
+      itemCount: productList.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 8.0,
+        mainAxisSpacing: 8.0,
+        childAspectRatio: 0.7
+      ),
+      itemBuilder: (context, index) {
+        final product = productList[index];
+
+        return Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          clipBehavior: Clip.antiAlias, // Good for ensuring content respects border radius
+          child: InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.productDetails, arguments: product.id);
+            },
+            child: Column( // Main layout: Image then Text content
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Image Section (Flexible Height)
+                Expanded( // Let the image section take up available vertical space
+                  flex: 3,
+                  child: Stack(
+                    alignment: Alignment.center, // To center the image if it doesn't fill
+                    fit: StackFit.expand, // Make Stack fill the Expanded space
+                    children: <Widget>[
+                      // Image itself
+                      Image.network(
+                        product.thumbnail ?? "https://via.placeholder.com/200",
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const Center(child: CircularProgressIndicator(strokeWidth: 2.0));
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Center(child: Icon(Icons.broken_image, color: Colors.grey, size: 40));
+                        },
+                      ),
+                      // Favorite Icon Overlay
+                      Positioned(
+                        top: 8.0,
+                        right: 8.0,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.read<LocalProductsBloc>().add(AddToFavoriteProductsEvent(product: product));
+                            // Update your state management here
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.4),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              (product.isFavorite ?? false) ? Icons.favorite : Icons.favorite_border,
+                              color: (product.isFavorite ?? false) ? Colors.redAccent : Colors.white,
+                              size: 22.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 8.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(product.title ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+                // Text Section
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min, // Important: Column should only take needed vertical space for text
+                    children: [
+                      Text(
+                        product.title ?? "No Title",
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        maxLines: 2, // Allow up to 2 lines for title
+                        overflow: TextOverflow.ellipsis, // Show '...' if title is longer
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        '₱${product.price?.toStringAsFixed(2) ?? "N/A"}',
+                        style: const TextStyle(fontSize: 13, color: Colors.deepOrange),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 4.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text('₱${product.price}' ?? ""),
-                  ),
-                  SizedBox(height: 4.0),
-                ]
-              ),
-            )
-          );
-        }
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

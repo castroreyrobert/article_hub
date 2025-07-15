@@ -17,7 +17,8 @@ class ProductEntity extends Equatable {
         this.category,
         this.stock,
         this.sku,
-        this.brand
+        this.brand,
+        this.isFavorite = false,
     });
 
     final List<String> ? images;
@@ -36,10 +37,12 @@ class ProductEntity extends Equatable {
     final int ? stock;
     final String ? sku;
     final String ? brand;
+    final bool isFavorite;
 
 
   @override
   List<Object?> get props => [
+      isFavorite,
       images,
       thumbnail,
       rating,

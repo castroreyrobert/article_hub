@@ -80,7 +80,7 @@ class ProductModel {
     );
   }
 
-   ProductEntity toEntityInstanceMethod() { // Or just toEntity()
+   ProductEntity toEntityInstanceMethod({bool isFavorite = false}) { // Or just toEntity()
      return ProductEntity(
          images: images, // 'this' refers to the current ProductModel instance
          tags: this.tags,
@@ -97,7 +97,8 @@ class ProductModel {
          category: this.category,
          stock: this.stock,
          sku: this.sku,
-         brand: this.brand
+         brand: this.brand,
+         isFavorite: isFavorite
      );
    }
 

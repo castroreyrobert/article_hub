@@ -117,6 +117,7 @@ class _SearchPageState extends State<SearchPage> {
             if (state is RemoteProductsLoading)
               Expanded(child: Center(child: CircularProgressIndicator()))
             else
+              SizedBox(height: 8.0),
               Expanded(child: _buildSearchProductResults(products ?? List.empty()))
           ],
         );
@@ -191,7 +192,6 @@ class _SearchPageState extends State<SearchPage> {
     return ListView.builder(
       itemCount: results.length,
       scrollDirection: Axis.vertical,
-      padding: const EdgeInsets.all(16),
       itemBuilder: (ctx, index)  {
         final product = results[index];
         return InkWell(
@@ -199,20 +199,24 @@ class _SearchPageState extends State<SearchPage> {
             _localProductsBloc.add(AddToRecentProductsEvent(product: product));
             Navigator.pushNamed(ctx, AppRoutes.productDetails, arguments: product.id);
           },
-          child: Row(
-            children: [
-              SizedBox(height: 56, width: 56, child: Image.network(product.thumbnail ?? "")),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(product.title ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('₱${product.price}')
-                  ],
-                ),
-              )
-            ]
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Wrap(
+              direction: Axis.horizontal,
+              children: [
+                SizedBox(height: 56, width: 56, child: Image.network(product.thumbnail ?? "")),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(product.title ?? "", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text('₱${product.price}')
+                    ],
+                  ),
+                )
+              ]
+            ),
           ),
         );
       }

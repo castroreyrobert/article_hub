@@ -9,7 +9,7 @@ import 'account_page.dart';
 enum BottomNavMenu {
   discover("Discover"),
   search("Search"),
-  saved("Recent"),
+  saved("Favorites"),
   cart("Cart"),
   account("Profile");
 
@@ -80,11 +80,11 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Discover" ),
+          BottomNavigationBarItem(icon: Icon(_selectedIndex == 0 ? Icons.home : Icons.home_outlined), label: "Discover" ),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search" ),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Saved" ),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart" ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account" )
+          BottomNavigationBarItem(icon: Icon(_selectedIndex == 2 ? Icons.favorite : Icons.favorite_border), label: "Favorites" ),
+          BottomNavigationBarItem(icon: Icon(_selectedIndex == 3 ? Icons.shopping_cart : Icons.shopping_cart_outlined), label: "Cart" ),
+          BottomNavigationBarItem(icon: Icon(_selectedIndex == 4 ? Icons.person : Icons.person_outline), label: "Account" )
         ],
         currentIndex: _selectedIndex,
         onTap: _onBottomNavItemSelected,

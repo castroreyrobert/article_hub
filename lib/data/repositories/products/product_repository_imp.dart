@@ -23,9 +23,10 @@ class ProductRepositoryImp extends ProductRepository {
     } else {
       response = await apiServices.getProducts();
     }
+    final favorites = await database.productDao.getFavorites();
     try {
       if (response.response.statusCode == 200) {
-        return Success(data: response.data.products?.map((e) => e.toEntityInstanceMethod()).toList());
+        return Success(data: response.data.products?.map((model) => model.toEntityInstanceMethod(isFavorite: favorites.any((e) => e.id == model.id))).toList());
       } else {
         return Failure(ErrorResponse.fromJson(response.response.data));
       }
@@ -52,9 +53,10 @@ class ProductRepositoryImp extends ProductRepository {
   @override
   Future<DataState<List<ProductEntity>>> getProductsByCategory(String category) async {
     final response = await apiServices.getProductsByCategory(category);
+    final favorites = await database.productDao.getFavorites();
     try {
       if (response.response.statusCode == 200) {
-        return Success(data: response.data.products?.map((e) => e.toEntityInstanceMethod()).toList());
+        return Success(data: response.data.products?.map((model) => model.toEntityInstanceMethod(isFavorite: favorites.any((e) => e.id == model.id))).toList());
       } else {
         return Failure(ErrorResponse.fromJson(response.response.data));
       }
@@ -66,9 +68,10 @@ class ProductRepositoryImp extends ProductRepository {
   @override
   Future<DataState<ProductEntity>> getProductDetails(int id) async {
     final response = await apiServices.getProductDetails(id);
+    final favorites = await database.productDao.getFavorites();
     try {
       if (response.response.statusCode == 200) {
-        return Success(data: response.data.toEntityInstanceMethod());
+        return Success(data: response.data.toEntityInstanceMethod(isFavorite: favorites.any((e) => e.id == response.data.id)));
       } else {
         return Failure(ErrorResponse.fromJson(response.response.data));
       }
@@ -89,7 +92,7 @@ class ProductRepositoryImp extends ProductRepository {
 
   @override
   Future<List<ProductEntity>> getFavoriteProducts() {
-    return database.productDao.getFavorites().then((value) => value.map((e) => e.toEntityInstanceMethod()).toList());
+    return database.productDao.getFavorites().then((value) => value.map((e) => e.toEntityInstanceMethod(isFavorite: true)).toList());
   }
 
   @override
