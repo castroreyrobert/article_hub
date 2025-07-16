@@ -22,6 +22,7 @@ class RemoteProductsBloc extends Bloc<RemoteProductsEvent, RemoteProductsState> 
     on<GetProductsCategoriesEvent>(onGetProductCategories);
     on<GetProductsEvent>(onGetProducts);
     on<GetProductDetailsEvent>(onGetProductDetails);
+    on<UpdateProductDetailsEvent>(onUpdateProductDetails);
   }
 
 
@@ -56,6 +57,16 @@ class RemoteProductsBloc extends Bloc<RemoteProductsEvent, RemoteProductsState> 
     if (dataState is Success) {
       final details = dataState.data;
       emit(GetProductDetailsSuccess(productDetails: details));
+    } else {
+      emit(RemoteProductsFailure(errorMessage: (dataState as Failure).error));
+    }
+  }
+
+  void onUpdateProductDetails(UpdateProductDetailsEvent event, Emitter<RemoteProductsState> emit) async {
+    final dataState = await getProductsUseCase.invoke();
+    if (dataState is Success) {
+      final products = dataState.data;
+      emit(RemoteProductsSuccess(products: products));
     } else {
       emit(RemoteProductsFailure(errorMessage: (dataState as Failure).error));
     }

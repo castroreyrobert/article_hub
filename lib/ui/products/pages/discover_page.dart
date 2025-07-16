@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/local/local_products_bloc.dart';
 import '../bloc/local/local_products_event.dart';
+import '../bloc/local/local_products_state.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -55,27 +56,42 @@ class _DiscoverPageState extends State<DiscoverPage> {
                   create: (context) => dependencyInjector<LocalProductsBloc>(),
                 ),
               ],
-              child: BlocListener<RemoteProductsBloc, RemoteProductsState>(
-                listener: (context, state) {
-                  if (state is RemoteProductCategorySuccess) {
-                    context.read<RemoteProductsBloc>().add(GetProductsEvent());
-                  }
-                  if (state is RemoteProductsFailure) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Failed Getting Articles'), backgroundColor: Colors.red),
-                    );
-                  }
-                  else {
-                    if (state.categories != null) {
-                      final categories = state.categories!.map((e) =>
-                          ProductCategoryEntity(slug: e.slug, name: e.name, url: e.url)).toList();
-                      final productCategories = [ProductCategoryEntity.all, ...categories];
-                      onAddAllCategory(productCategories);
+              child: MultiBlocListener(
+                listeners: [
+                  BlocListener<RemoteProductsBloc, RemoteProductsState>(
+                    listener: (context, state) {
+                      if (state is RemoteProductCategorySuccess) {
+                        context.read<RemoteProductsBloc>().add(GetProductsEvent());
+                      }
+                      if (state is RemoteProductsFailure) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Failed Getting Articles'), backgroundColor: Colors.red),
+                        );
+                      }
+                      else {
+                        if (state.categories != null) {
+                          final categories = state.categories!.map((e) =>
+                              ProductCategoryEntity(slug: e.slug, name: e.name, url: e.url)).toList();
+                          final productCategories = [ProductCategoryEntity.all, ...categories];
+                          onAddAllCategory(productCategories);
+                        }
+                      }
                     }
-                  }
-                },
-                child: _buildContent(),
-            )
+                  ),
+                  BlocListener<LocalProductsBloc, LocalProductState>(
+                    listener: (context, state) {
+                      if (state is LocalProductFailure) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Failed Getting Articles'),
+                              backgroundColor: Colors.red),
+                        );
+                      } else if (state is LocalProductGenericSuccess) {
+                        context.read<RemoteProductsBloc>().add(UpdateProductDetailsEvent());
+                      }
+                    }
+                  )
+                ], child: _buildContent(),
+              )
           )
         ),
       ],
@@ -185,7 +201,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         right: 8.0,
                         child: GestureDetector(
                           onTap: () {
+                            if(product.isFavorite) {
+                              context.read<LocalProductsBloc>().add(RemoveFromFavoriteProductsEvent(product: product));
+                            } else {
                             context.read<LocalProductsBloc>().add(AddToFavoriteProductsEvent(product: product));
+                            }
                             // Update your state management here
                           },
                           child: Container(

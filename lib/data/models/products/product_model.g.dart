@@ -22,6 +22,7 @@ Map<String, dynamic> _$ProductListResponseToJson(
     };
 
 ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
+      localId: (json['localId'] as num?)?.toInt(),
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       thumbnail: json['thumbnail'] as String?,
@@ -43,6 +44,7 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
 
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
     <String, dynamic>{
+      'localId': instance.localId,
       'images': instance.images,
       'thumbnail': instance.thumbnail,
       'rating': instance.rating,
@@ -63,6 +65,7 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
 
 RecentProductModel _$RecentProductModelFromJson(Map<String, dynamic> json) =>
     RecentProductModel(
+      localId: (json['localId'] as num?)?.toInt(),
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       thumbnail: json['thumbnail'] as String?,
@@ -84,6 +87,7 @@ RecentProductModel _$RecentProductModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$RecentProductModelToJson(RecentProductModel instance) =>
     <String, dynamic>{
+      'localId': instance.localId,
       'images': instance.images,
       'thumbnail': instance.thumbnail,
       'rating': instance.rating,

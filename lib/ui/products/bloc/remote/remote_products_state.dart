@@ -12,7 +12,7 @@ abstract class RemoteProductsState extends Equatable {
   const RemoteProductsState({this.products, this.categories, this.errorMessage, this.productDetails});
 
   @override
-  List<Object?> get props => [products, categories, errorMessage!];
+  List<Object?> get props => [products, categories, errorMessage, productDetails];
 }
 
 class RemoteProductsIdle extends RemoteProductsState {

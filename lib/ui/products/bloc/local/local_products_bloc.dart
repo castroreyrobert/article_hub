@@ -2,6 +2,7 @@
 import 'package:article_hub/domain/usecases/products/add_to_favorites_usecase.dart';
 import 'package:article_hub/domain/usecases/products/get_recent_products_usecase.dart';
 import 'package:article_hub/domain/usecases/products/remove_from_recent_usecase.dart';
+import 'package:article_hub/ui/products/bloc/remote/remote_products_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../domain/usecases/products/add_to_recent_usecase.dart';

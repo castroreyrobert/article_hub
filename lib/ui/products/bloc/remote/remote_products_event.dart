@@ -1,4 +1,6 @@
 
+import 'package:article_hub/domain/entities/products/product_entity.dart';
+
 abstract class RemoteProductsEvent {
   const RemoteProductsEvent();
 }
@@ -16,4 +18,8 @@ class GetProductsCategoriesEvent extends RemoteProductsEvent {
 class GetProductDetailsEvent extends RemoteProductsEvent {
   final int id;
   const GetProductDetailsEvent({required this.id});
+}
+
+class UpdateProductDetailsEvent extends RemoteProductsEvent {
+  const UpdateProductDetailsEvent();
 }
