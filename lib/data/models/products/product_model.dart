@@ -16,11 +16,8 @@ class ProductListResponse {
 }
 
 @JsonSerializable()
-@Entity(tableName: "products")
+@Entity(tableName: 'products', primaryKeys: ['id'])
 class ProductModel {
-
-  @PrimaryKey(autoGenerate: true)
-  final int ? localId;
 
   final List<String> ? images;
   final String ? thumbnail;
@@ -40,7 +37,6 @@ class ProductModel {
   final String ? brand;
 
   const ProductModel({
-    this.localId,
     this.images,
     this.thumbnail,
     this.rating,
@@ -109,10 +105,9 @@ class ProductModel {
 }
 
 @JsonSerializable()
-@Entity(tableName: "recent_products")
+@Entity(tableName: 'recent_products', primaryKeys: ['id'])
 class RecentProductModel {
   const RecentProductModel({
-    this.localId,
     this.images,
     this.thumbnail,
     this.rating,
@@ -130,9 +125,6 @@ class RecentProductModel {
     this.sku,
     this.brand
   });
-
-  @PrimaryKey(autoGenerate: true)
-  final int? localId;
 
   final List<String> ? images;
   final String ? thumbnail;

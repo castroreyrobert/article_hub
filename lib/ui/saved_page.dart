@@ -25,9 +25,7 @@ class SavedPage extends StatelessWidget {
                 child: BlocListener<LocalProductsBloc, LocalProductState>(
                   listener: (context, state) {
                     if (state is LocalProductGenericSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Failed Getting Articles'), backgroundColor: Colors.red),
-                      );
+                      context.read<LocalProductsBloc>().add(GetFavoriteProductsEvent());
                     }
                   },
                   child: _buildContent(),
@@ -86,7 +84,12 @@ class SavedPage extends StatelessWidget {
                         right: 8.0,
                         child: GestureDetector(
                           onTap: () {
-                            context.read<LocalProductsBloc>().add(AddToFavoriteProductsEvent(product: product));
+                            if(product.isFavorite) {
+                              context.read<LocalProductsBloc>().add(RemoveFromFavoriteProductsEvent(product: product));
+                            } else {
+                              context.read<LocalProductsBloc>().add(
+                                  AddToFavoriteProductsEvent(product: product));
+                            }
                             // Update your state management here
                           },
                           child: Container(

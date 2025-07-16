@@ -96,9 +96,9 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `products` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `images` TEXT, `thumbnail` TEXT, `rating` REAL, `returnPolicy` TEXT, `description` TEXT, `weight` INTEGER, `title` TEXT, `tags` TEXT, `discountPercentage` REAL, `price` REAL, `id` INTEGER, `availabilityStatus` TEXT, `category` TEXT, `stock` INTEGER, `sku` TEXT, `brand` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `products` (`images` TEXT, `thumbnail` TEXT, `rating` REAL, `returnPolicy` TEXT, `description` TEXT, `weight` INTEGER, `title` TEXT, `tags` TEXT, `discountPercentage` REAL, `price` REAL, `id` INTEGER, `availabilityStatus` TEXT, `category` TEXT, `stock` INTEGER, `sku` TEXT, `brand` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `recent_products` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `images` TEXT, `thumbnail` TEXT, `rating` REAL, `returnPolicy` TEXT, `description` TEXT, `weight` INTEGER, `title` TEXT, `tags` TEXT, `discountPercentage` REAL, `price` REAL, `id` INTEGER, `availabilityStatus` TEXT, `category` TEXT, `stock` INTEGER, `sku` TEXT, `brand` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `recent_products` (`images` TEXT, `thumbnail` TEXT, `rating` REAL, `returnPolicy` TEXT, `description` TEXT, `weight` INTEGER, `title` TEXT, `tags` TEXT, `discountPercentage` REAL, `price` REAL, `id` INTEGER, `availabilityStatus` TEXT, `category` TEXT, `stock` INTEGER, `sku` TEXT, `brand` TEXT, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -121,7 +121,6 @@ class _$ProductDao extends ProductDao {
             database,
             'products',
             (ProductModel item) => <String, Object?>{
-                  'localId': item.localId,
                   'images': _stringListConverter.encode(item.images),
                   'thumbnail': item.thumbnail,
                   'rating': item.rating,
@@ -143,7 +142,6 @@ class _$ProductDao extends ProductDao {
             database,
             'recent_products',
             (RecentProductModel item) => <String, Object?>{
-                  'localId': item.localId,
                   'images': _stringListConverter.encode(item.images),
                   'thumbnail': item.thumbnail,
                   'rating': item.rating,
@@ -164,9 +162,8 @@ class _$ProductDao extends ProductDao {
         _productModelDeletionAdapter = DeletionAdapter(
             database,
             'products',
-            ['localId'],
+            ['id'],
             (ProductModel item) => <String, Object?>{
-                  'localId': item.localId,
                   'images': _stringListConverter.encode(item.images),
                   'thumbnail': item.thumbnail,
                   'rating': item.rating,
@@ -187,9 +184,8 @@ class _$ProductDao extends ProductDao {
         _recentProductModelDeletionAdapter = DeletionAdapter(
             database,
             'recent_products',
-            ['localId'],
+            ['id'],
             (RecentProductModel item) => <String, Object?>{
-                  'localId': item.localId,
                   'images': _stringListConverter.encode(item.images),
                   'thumbnail': item.thumbnail,
                   'rating': item.rating,
@@ -227,7 +223,6 @@ class _$ProductDao extends ProductDao {
   Future<List<ProductModel>> getFavorites() async {
     return _queryAdapter.queryList('SELECT * FROM products',
         mapper: (Map<String, Object?> row) => ProductModel(
-            localId: row['localId'] as int?,
             images: _stringListConverter.decode(row['images'] as String?),
             thumbnail: row['thumbnail'] as String?,
             rating: row['rating'] as double?,
@@ -250,7 +245,6 @@ class _$ProductDao extends ProductDao {
   Future<List<RecentProductModel>> getRecentProducts() async {
     return _queryAdapter.queryList('SELECT * FROM recent_products',
         mapper: (Map<String, Object?> row) => RecentProductModel(
-            localId: row['localId'] as int?,
             images: _stringListConverter.decode(row['images'] as String?),
             thumbnail: row['thumbnail'] as String?,
             rating: row['rating'] as double?,

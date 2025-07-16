@@ -35,6 +35,7 @@ class LocalProductsBloc extends Bloc<LocalProductEvent, LocalProductState> {
     on<ClearRecentProductsEvent>(onClearRecentProducts);
     on<AddToFavoriteProductsEvent>(onAddFavoriteProducts);
     on<GetFavoriteProductsEvent>(onGetFavoriteProducts);
+    on<RemoveFromFavoriteProductsEvent>(onRemoveFromFavoriteProduct);
   }
 
   void onAddRecentProducts(AddToRecentProductsEvent event, Emitter<LocalProductState> emit) async {
@@ -63,6 +64,11 @@ class LocalProductsBloc extends Bloc<LocalProductEvent, LocalProductState> {
     emit(LocalProductLoading());
     final result = await getFavoriteProductsUseCase.invoke();
     emit(LocalFavoriteProductSuccess(favoriteProducts: result));
+  }
 
+  void onRemoveFromFavoriteProduct(RemoveFromFavoriteProductsEvent event, Emitter<LocalProductState> emit) async {
+    await removeFromFavoriteProductsUseCase.invoke(params: event.product);
+    final favorites = await getFavoriteProductsUseCase.invoke();
+    emit(LocalFavoriteProductSuccess(favoriteProducts: favorites));
   }
 }
