@@ -72,6 +72,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_title, style: TextStyle(fontWeight: FontWeight.bold)),
+        actions:[
+          if (_selectedIndex == 3)
+            IconButton(onPressed: (){}, icon: Icon(Icons.notifications))
+        ]
       ),
       body: PageView(
         controller: _pageController,

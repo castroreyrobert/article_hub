@@ -87,6 +87,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         );
                       } else if (state is LocalProductGenericSuccess) {
                         context.read<RemoteProductsBloc>().add(UpdateProductDetailsEvent());
+                      } else if(state is LocalFavoriteProductSuccess) {
+                        context.read<RemoteProductsBloc>().add(UpdateProductDetailsEvent());
                       }
                     }
                   )
@@ -199,7 +201,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       Positioned(
                         top: 8.0,
                         right: 8.0,
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: () {
                             if(product.isFavorite) {
                               context.read<LocalProductsBloc>().add(RemoveFromFavoriteProductsEvent(product: product));

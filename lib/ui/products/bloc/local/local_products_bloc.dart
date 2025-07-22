@@ -57,7 +57,8 @@ class LocalProductsBloc extends Bloc<LocalProductEvent, LocalProductState> {
 
   void onAddFavoriteProducts(AddToFavoriteProductsEvent event, Emitter<LocalProductState> emit) async {
     await addToFavoriteProductsUseCase.invoke(params: event.product);
-    emit(LocalProductGenericSuccess());
+    final result = await getFavoriteProductsUseCase.invoke();
+    emit(LocalFavoriteProductSuccess(favoriteProducts: result));
   }
 
   void onGetFavoriteProducts(GetFavoriteProductsEvent event, Emitter<LocalProductState> emit) async {

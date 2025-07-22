@@ -82,13 +82,12 @@ class SavedPage extends StatelessWidget {
                       Positioned(
                         top: 8.0,
                         right: 8.0,
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: () {
                             if(product.isFavorite) {
                               context.read<LocalProductsBloc>().add(RemoveFromFavoriteProductsEvent(product: product));
                             } else {
-                              context.read<LocalProductsBloc>().add(
-                                  AddToFavoriteProductsEvent(product: product));
+                              context.read<LocalProductsBloc>().add(AddToFavoriteProductsEvent(product: product));
                             }
                             // Update your state management here
                           },
