@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(_title, style: TextStyle(fontWeight: FontWeight.bold)),
         actions:[
-          if (_selectedIndex == 3)
+          if (_selectedIndex == 4)
             IconButton(onPressed: (){}, icon: Icon(Icons.notifications))
         ]
       ),
