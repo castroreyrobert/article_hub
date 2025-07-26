@@ -10,6 +10,6 @@ class LoginUseCase implements UseCase<DataState<UserEntity>, LoginRequest>{
 
   @override
   Future<DataState<UserEntity>> invoke({LoginRequest ? params}) async {
-    return repository.login(params!.username, params.password);
+    return repository.loginFirebase(params!.username, params.password);
   }
 }

@@ -20,6 +20,8 @@ import 'package:article_hub/domain/usecases/products/get_products_usecase.dart';
 import 'package:article_hub/ui/authentication/bloc/remote_authentication_bloc.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../data/data_sources/local/app_database.dart';
@@ -33,6 +35,10 @@ import '../../ui/products/bloc/local/local_products_bloc.dart';
 final dependencyInjector = GetIt.instance;
 
 Future<void> setUpDependencyInjector() async {
+
+  await Firebase.initializeApp();
+
+  dependencyInjector.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 
   dependencyInjector.registerSingletonAsync<AppDatabase>(() async {
     // ... your Floor database builder ...
@@ -138,7 +144,7 @@ Future<void> setUpDependencyInjector() async {
 
   dependencyInjector.registerSingleton(AuthenticationApiServices(dependencyInjector<Dio>()));
 
-  dependencyInjector.registerSingleton<AuthenticationRepository>(AuthenticationRepositoryImp(dependencyInjector()));
+  dependencyInjector.registerSingleton<AuthenticationRepository>(AuthenticationRepositoryImp(dependencyInjector(), dependencyInjector()));
 
   dependencyInjector.registerSingleton<LoginUseCase>(LoginUseCase(dependencyInjector<AuthenticationRepository>()));
 

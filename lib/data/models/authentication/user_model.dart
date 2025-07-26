@@ -1,4 +1,5 @@
 import 'package:article_hub/domain/entities/authentication/user_entity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'user_model.g.dart';
 
@@ -30,6 +31,16 @@ class UserModel extends UserEntity {
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
-
+  factory UserModel.fromFirebaseUser(User user) => UserModel(
+    accessToken: user.refreshToken ?? "",
+    refreshToken: user.refreshToken ?? "",
+    id: user.metadata.hashCode,
+    username: user.displayName ?? "",
+    email: user.email ?? "",
+    firstName: user.displayName ?? "",
+    lastName: user.displayName ?? "",
+    gender: user.displayName ?? "",
+    image: user.photoURL ?? "",
+  );
 
 }

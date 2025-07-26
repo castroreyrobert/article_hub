@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "224870256271",
+    "project_id": "article-hub-39a38",
+    "storage_bucket": "article-hub-39a38.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224870256271:android:71e11ad181269348316afa",
+        "android_client_info": {
+          "package_name": "dev.robcodes.article_hub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfnRqT3X_wkyTWYsumuYlPTlQTb73eNik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224870256271:android:abbcf08cc3c702d0316afa",
+        "android_client_info": {
+          "package_name": "dev.robcodes.article_hub.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfnRqT3X_wkyTWYsumuYlPTlQTb73eNik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
