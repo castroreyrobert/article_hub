@@ -24,7 +24,7 @@ class _AuthenticationApiServices implements AuthenticationApiServices {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<LoginUserModel>> login(LoginRequest loginRequest) async {
+  Future<HttpResponse<UserModel>> login(LoginRequest loginRequest) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
@@ -34,7 +34,7 @@ class _AuthenticationApiServices implements AuthenticationApiServices {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(loginRequest.toJson());
-    final _options = _setStreamType<HttpResponse<LoginUserModel>>(Options(
+    final _options = _setStreamType<HttpResponse<UserModel>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -52,9 +52,9 @@ class _AuthenticationApiServices implements AuthenticationApiServices {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late LoginUserModel _value;
+    late UserModel _value;
     try {
-      _value = LoginUserModel.fromJson(_result.data!);
+      _value = UserModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

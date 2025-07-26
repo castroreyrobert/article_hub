@@ -6,8 +6,7 @@ part of 'user_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LoginUserModel _$LoginUserModelFromJson(Map<String, dynamic> json) =>
-    LoginUserModel(
+UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       accessToken: json['accessToken'] as String,
       refreshToken: json['refreshToken'] as String,
       id: (json['id'] as num).toInt(),
@@ -19,8 +18,7 @@ LoginUserModel _$LoginUserModelFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String,
     );
 
-Map<String, dynamic> _$LoginUserModelToJson(LoginUserModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,
       'id': instance.id,

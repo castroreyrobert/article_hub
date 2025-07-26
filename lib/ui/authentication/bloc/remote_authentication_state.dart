@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
 sealed class RemoteAuthenticationState extends Equatable {
-  final LoginUserEntity ? user;
+  final UserEntity ? user;
   final ErrorResponse ? errorMessage;
 
   const RemoteAuthenticationState({this.user, this.errorMessage});

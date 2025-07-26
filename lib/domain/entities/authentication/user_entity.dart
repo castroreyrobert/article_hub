@@ -1,7 +1,7 @@
 
 import 'package:equatable/equatable.dart';
 
-class LoginUserEntity extends Equatable {
+class UserEntity extends Equatable {
 
   final String ? accessToken;
   final String ? refreshToken;
@@ -13,7 +13,7 @@ class LoginUserEntity extends Equatable {
   final String ? gender;
   final String ? image;
 
-  const LoginUserEntity({
+  const UserEntity({
     this.accessToken,
     this.refreshToken,
     this.id,

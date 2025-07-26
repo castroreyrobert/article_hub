@@ -17,5 +17,5 @@ abstract class AuthenticationApiServices {
     "Content-Type": "application/json",
     "Accept": "application/json"
   })
-  Future<HttpResponse<LoginUserModel>> login(@Body() LoginRequest loginRequest);
+  Future<HttpResponse<UserModel>> login(@Body() LoginRequest loginRequest);
 }

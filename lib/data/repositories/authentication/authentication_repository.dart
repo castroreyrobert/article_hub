@@ -15,13 +15,13 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
   final AuthenticationApiServices apiServices;
   AuthenticationRepositoryImp(this.apiServices);
   @override
-  Future<DataState<LoginUserModel>> login(String email, String password) async {
+  Future<DataState<UserModel>> login(String email, String password) async {
     try {
-      final HttpResponse<LoginUserModel> httpResponse = await apiServices.login(
+      final HttpResponse<UserModel> httpResponse = await apiServices.login(
           LoginRequest(username: email, password: password));
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return Success(
-            data: LoginUserModel.fromJson(httpResponse.response.data));
+            data: UserModel.fromJson(httpResponse.response.data));
       } else {
         return Failure(
             ErrorResponse.fromJson(httpResponse.response.data)

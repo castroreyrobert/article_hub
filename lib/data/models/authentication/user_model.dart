@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_model.g.dart';
 
 @JsonSerializable()
-class LoginUserModel extends LoginUserEntity {
+class UserModel extends UserEntity {
     final String accessToken;
     final String refreshToken;
     final int id;
@@ -14,7 +14,7 @@ class LoginUserModel extends LoginUserEntity {
     final String gender;
     final String image;
 
-  const LoginUserModel({
+  const UserModel({
     required this.accessToken,
     required this.refreshToken,
     required this.id ,
@@ -26,9 +26,9 @@ class LoginUserModel extends LoginUserEntity {
     required this.image
   });
 
-  factory LoginUserModel.fromJson(Map<String, dynamic> json) => _$LoginUserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoginUserModelToJson(this);
+  Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
 
 
