@@ -9,3 +9,10 @@ class LoginEvent extends RemoteAuthenticationEvent {
 
   LoginEvent({required this.username, required this.password});
 }
+
+class SignUpEvent extends RemoteAuthenticationEvent {
+  String email;
+  String password;
+
+  SignUpEvent({required this.email, required this.password});
+}

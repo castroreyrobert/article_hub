@@ -7,6 +7,7 @@ import 'package:article_hub/domain/entities/products/product_entity.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_bloc.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_event.dart';
 import 'package:article_hub/ui/products/bloc/remote/remote_products_state.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,8 +25,7 @@ class DiscoverPage extends StatefulWidget {
 class _DiscoverPageState extends State<DiscoverPage> {
   ProductCategoryEntity selectedCategory = ProductCategoryEntity.all;
 
-  var categoryList = [ProductCategoryEntity.all];
-
+  late List<ProductCategoryEntity> categoryList = [];
 
   @override
   void dispose() {
@@ -88,7 +88,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       } else if (state is LocalProductGenericSuccess) {
                         context.read<RemoteProductsBloc>().add(UpdateProductDetailsEvent());
                       } else if(state is LocalFavoriteProductSuccess) {
-                        context.read<RemoteProductsBloc>().add(UpdateProductDetailsEvent());
+                        context.read<RemoteProductsBloc>().add(UpdateProductDetailsEvent(category: selectedCategory.slug != ProductCategoryEntity.all.slug ? selectedCategory.slug : null));
                       }
                     }
                   )

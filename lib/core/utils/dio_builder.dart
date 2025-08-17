@@ -1,10 +1,11 @@
 import 'package:article_hub/core/utils/constants.dart';
 import 'package:dio/dio.dart';
 
-Dio getDio() {
+Dio getDio(String baseUrl) {
   BaseOptions options = BaseOptions(
     receiveDataWhenStatusError: true,
     contentType: "application/json",
+    baseUrl: baseUrl,
     connectTimeout: const Duration(seconds: 30),
     receiveTimeout: const Duration(seconds: 30),
   );

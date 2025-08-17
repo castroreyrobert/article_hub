@@ -63,7 +63,10 @@ class RemoteProductsBloc extends Bloc<RemoteProductsEvent, RemoteProductsState> 
   }
 
   void onUpdateProductDetails(UpdateProductDetailsEvent event, Emitter<RemoteProductsState> emit) async {
-    final dataState = await getProductsUseCase.invoke();
+    final dataState = event.category != null ?
+    await getProductsByCategoryUseCase.invoke(params: event.category) :
+    await getProductsUseCase.invoke(params: event.query);
+
     if (dataState is Success) {
       final products = dataState.data;
       emit(RemoteProductsSuccess(products: products));

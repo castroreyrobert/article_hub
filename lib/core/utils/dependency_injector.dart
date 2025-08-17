@@ -1,4 +1,5 @@
 
+import 'package:article_hub/core/utils/constants.dart';
 import 'package:article_hub/core/utils/dio_builder.dart';
 import 'package:article_hub/data/data_sources/remote/articles/article_api_services.dart';
 import 'package:article_hub/data/data_sources/remote/authentication/authentication_api_services.dart';
@@ -25,18 +26,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../data/data_sources/local/app_database.dart';
+import '../../domain/usecases/authentication/signup_usecase.dart';
 import '../../domain/usecases/products/delete_all_recent_usecase.dart';
 import '../../domain/usecases/products/get_favorite_products_usecase.dart';
 import '../../domain/usecases/products/get_recent_products_usecase.dart';
 import '../../domain/usecases/products/remove_from_favorites_usecase.dart';
 import '../../domain/usecases/products/remove_from_recent_usecase.dart';
 import '../../ui/products/bloc/local/local_products_bloc.dart';
+import '../configs/flavor_config.dart';
 
 final dependencyInjector = GetIt.instance;
 
 Future<void> setUpDependencyInjector() async {
 
   await Firebase.initializeApp();
+
+  final String dynamicBaseUrl = FlavorConfig.instance.baseUrl;
 
   dependencyInjector.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 
@@ -49,7 +54,7 @@ Future<void> setUpDependencyInjector() async {
     return database;
   });
 
-  dependencyInjector.registerSingleton(getDio());
+  dependencyInjector.registerSingleton(getDio(dynamicBaseUrl));
 
   dependencyInjector.registerSingleton(ProductApiServices(dependencyInjector()));
 
@@ -148,6 +153,10 @@ Future<void> setUpDependencyInjector() async {
 
   dependencyInjector.registerSingleton<LoginUseCase>(LoginUseCase(dependencyInjector<AuthenticationRepository>()));
 
-  dependencyInjector.registerFactory<RemoteAuthenticationBloc>(() => RemoteAuthenticationBloc(loginUseCase: dependencyInjector<LoginUseCase>()));
+  dependencyInjector.registerSingleton<SignupUseCase>(SignupUseCase(dependencyInjector<AuthenticationRepository>()));
+
+  dependencyInjector.registerFactory<RemoteAuthenticationBloc>(() => RemoteAuthenticationBloc(loginUseCase: dependencyInjector<LoginUseCase>(), signUpUseCase: dependencyInjector<SignupUseCase>()));
+
+
 
 }

@@ -8,7 +8,6 @@ import '../../../models/authentication/user_model.dart';
 part 'authentication_api_services.g.dart';
 
 
-@RestApi(baseUrl: authBaseURL)
 abstract class AuthenticationApiServices {
   factory AuthenticationApiServices (Dio dio, {String baseUrl}) = _AuthenticationApiServices;
 

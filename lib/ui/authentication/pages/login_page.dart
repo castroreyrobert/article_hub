@@ -21,6 +21,23 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Don't have an account?", style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey)),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => SignupPage()),
+                );
+              },
+              child: Text("Join", style: TextStyle(decoration: TextDecoration.underline))
+            )
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text("Login Account",
             style: TextStyle(

@@ -1,11 +1,13 @@
 import 'package:article_hub/core/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
+import 'core/configs/flavor_config.dart';
 import 'core/utils/dependency_injector.dart';
 
 
-Future<void> main() async {
+Future<void> mainCommon({required Flavor flavor, required String baseUrl, required String name}) async {
   WidgetsFlutterBinding.ensureInitialized();
+  FlavorConfig(flavor: flavor, baseUrl: baseUrl, name: name);
   await setUpDependencyInjector();
   await dependencyInjector.allReady();
   runApp(

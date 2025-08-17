@@ -1,5 +1,4 @@
 
-import 'package:article_hub/domain/entities/products/product_entity.dart';
 
 abstract class RemoteProductsEvent {
   const RemoteProductsEvent();
@@ -21,5 +20,7 @@ class GetProductDetailsEvent extends RemoteProductsEvent {
 }
 
 class UpdateProductDetailsEvent extends RemoteProductsEvent {
-  const UpdateProductDetailsEvent();
+  final String? category;
+  final String ? query;
+  const UpdateProductDetailsEvent({this.category, this.query});
 }
